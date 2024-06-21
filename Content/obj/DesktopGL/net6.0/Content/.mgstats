@@ -1,0 +1,2 @@
+Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"/Users/orchidwinters/Projects/grapplingGame/Content/player_sprite.png","/Users/orchidwinters/Projects/grapplingGame/Content/bin/DesktopGL/Content/Player.xnb","TextureProcessor","Texture2DContent",190,4181,0.601159

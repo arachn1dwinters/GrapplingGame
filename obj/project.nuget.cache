@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "6guhFn+jVORWVjbulsDjF6aIJD6vlPbdi3uWAvEdojkT98yU95yTnghHi5W3fAnuvSDlDcMmlBh/tumXpOSJCQ==",
+  "success": true,
+  "projectFilePath": "/Users/orchidwinters/Projects/grapplingGame/GrapplingGame.csproj",
+  "expectedPackageFiles": [
+    "/Users/orchidwinters/.nuget/packages/monogame.content.builder.task/3.8.1.303/monogame.content.builder.task.3.8.1.303.nupkg.sha512",
+    "/Users/orchidwinters/.nuget/packages/monogame.framework.desktopgl/3.8.1.303/monogame.framework.desktopgl.3.8.1.303.nupkg.sha512",
+    "/Users/orchidwinters/.nuget/packages/tiledcs/3.3.3/tiledcs.3.3.3.nupkg.sha512"
+  ],
+  "logs": []
+}
