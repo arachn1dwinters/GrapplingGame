@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GrapplingGame")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+60d230b6a7a94aedf71b5b41152d8c795cc0c873")]
 [assembly: System.Reflection.AssemblyProductAttribute("GrapplingGame")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GrapplingGame")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
