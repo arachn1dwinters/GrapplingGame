@@ -46,7 +46,7 @@ public class GameManager : Game
     private int _tileHeight;
     private int _tilesetTilesWide;
     private int _tilesetTilesHeight;
-    public List<GameObject> tiles;
+    public List<GameObject> tiles = new();
 
 
     public GameManager()
@@ -142,8 +142,6 @@ public class GameManager : Game
 
     public void CreateMap(string tiledLevel)
     {
-        Console.WriteLine("Creating map " + tiledLevel + "!");
-
         // Remove all current tiles
         foreach (GameObject obj in tiles)
         {
@@ -155,12 +153,12 @@ public class GameManager : Game
         // by clicking them in the solution explorer.
         string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-        _map = new TiledMap(path + "/" + Content.RootDirectory + "/" + tiledLevel);
-        _tileset = new TiledTileset(path + "/" + Content.RootDirectory + "/Tiletest.tsx");
+        _map = new TiledMap(path + "/" + Content.RootDirectory + "/tilemaps/" + tiledLevel);
+        _tileset = new TiledTileset(path + "/" + Content.RootDirectory + "/tilemaps/Tileset.tsx");
 
-        // Not the best way to do this but it works. It looks for "exampleTileset.xnb" file
+        // Not the best way to do this but it works. It looks for "tileset.xnb" file
         // which is the result of building the image file with "Content.mgcb".
-        _tilesetTexture = Content.Load<Texture2D>("tiletest");
+        _tilesetTexture = Content.Load<Texture2D>("tilemaps/tileset");
 
         _tileWidth = _tileset.TileWidth;
         _tileHeight = _tileset.TileHeight;

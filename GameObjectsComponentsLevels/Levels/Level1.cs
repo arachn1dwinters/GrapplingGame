@@ -17,12 +17,13 @@ namespace GrapplingGame.GameObjectsComponentsLevels.Levels
 
         public override void Initialize()
         {
-            /*tiledMap = "Level_1.tmx";
-            parent.CreateMap(tiledMap);*/
+            tiledMap = "Level1.tmx";
+            parent.CreateMap(tiledMap);
 
             player = new(parent.playerSprite, new Vector2Int(50, 50), new Vector2Int(1, 1), "player", this, new()
             {
                 "MovementComponent",
+                "PhysicsComponent",
                 //"AnimationAttribute"
             });
             /*player.SetAttributeVariable("AnimationAttribute", "frameHeight", 16);
@@ -31,8 +32,6 @@ namespace GrapplingGame.GameObjectsComponentsLevels.Levels
             {
                 4,
             });*/
-            
-            GameObject collisionTest = new(parent.playerSprite, new Vector2Int(100, 100), new Vector2Int(1, 1), "collision test", this);
         }
 
         public override void Update()

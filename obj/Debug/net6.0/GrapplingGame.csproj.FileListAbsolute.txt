@@ -25,3 +25,5 @@
 /Users/orchidwinters/Projects/grapplingGame/obj/Debug/net6.0/GrapplingGame.pdb
 /Users/orchidwinters/Projects/grapplingGame/obj/Debug/net6.0/GrapplingGame.genruntimeconfig.cache
 /Users/orchidwinters/Projects/grapplingGame/obj/Debug/net6.0/ref/GrapplingGame.dll
+/Users/orchidwinters/Projects/grapplingGame/bin/Debug/net6.0/Content/tilemaps/tileset.xnb
+/Users/orchidwinters/Projects/grapplingGame/obj/Debug/net6.0/GrapplingGame.sourcelink.json

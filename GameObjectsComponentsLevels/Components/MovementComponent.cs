@@ -17,7 +17,7 @@ public class MovementComponent : Component
 {
     // Movement and speed2
     int speed = 2;
-    Vector2Int movement = new();
+    public Vector2Int movement = new();
     int gravity;
     public bool rightSideUp = true;
 

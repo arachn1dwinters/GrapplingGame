@@ -5,8 +5,10 @@
   <Config />
   <SourceFiles>
     <File>/Users/orchidwinters/Projects/grapplingGame/Content/player_sprite.png</File>
+    <File>/Users/orchidwinters/Projects/grapplingGame/Content/tilemaps/tileset.png</File>
   </SourceFiles>
   <DestFiles>
     <File>Player.png</File>
+    <File xsi:nil="true" />
   </DestFiles>
 </SourceFileCollection>
