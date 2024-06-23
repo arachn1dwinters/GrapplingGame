@@ -1,6 +1,6 @@
-﻿/* Movement and collision system inspired by https://gamesfromearth.medium.com/a-simple-2d-physics-system-for-platform-games-f430718ea77f
-   & https://maddythorson.medium.com/celeste-and-towerfall-physics-d24bd2ae0fc5
-   Thank you to Maddy Thorson and Games From Earth!
+﻿/* Movement system inspired by https://gamesfromearth.medium.com/a-simple-2d-physics-system-for-platform-games-f430718ea77f
+* & https://maddythorson.medium.com/celeste-and-towerfall-physics-d24bd2ae0fc5
+* Thank you to Maddy Thornson and Games From Earth!
 */
 
 using System;
@@ -10,25 +10,22 @@ using Microsoft.Xna.Framework;
 
 using GrapplingGame.GameObjectsComponentsLevels.GameObjects;
 using GrapplingGame.GameObjectsComponentsLevels.Helpers;
-using static GrapplingGame.GameObjectsComponentsLevels.Helpers.GLOBALS;
 
 namespace GrapplingGame.GameObjectsComponentsLevels.Components;
 public class MovementComponent : Component
 {
     // Movement and speed2
     int speed = 2;
-    public Vector2Int movement = new();
-    int gravity;
+    Point movement = new();
     public bool rightSideUp = true;
-
-    // The widht of the parent sprite
-    int spriteWidth, spriteHeight;
-    bool setDimensions;
 
     // The step count of every movement: spriteWidth + the width of the smallest possible tile - 1
     int xStep, yStep;
 
-    bool grounded;
+    // Physics and velocity
+    Point velocity;
+    int gravity;
+    public bool grounded;
 
     public override string type { get; set; }
 
@@ -37,84 +34,71 @@ public class MovementComponent : Component
         // Set type 
         type = "MovementComponent";
 
-        gravity = GRAVITY;
+        gravity = GLOBALS.GRAVITY;
     }
 
     public override void Update(GameTime gameTime)
     {
-        /*if ((bool)parent.GetAttributeVariable("AnimationAttribute", "setParentDimensions") && !setDimensions)
-        {
-            spriteWidth = parent.width;
-            spriteHeight = parent.height;
+        base.Update(gameTime);
 
-            setDimensions = true;
-        }*/
+        bool baseGrounded = grounded;
 
         // Set step counts
-        xStep = spriteWidth * parent.sizeMultiplier.x + (12 - 1);
-        yStep = spriteHeight * parent.sizeMultiplier.y + (12 - 1);
+        xStep = parent.width * parent.sizeMultiplier.X + (12 - 1);
+        yStep = parent.height * parent.sizeMultiplier.X + (12 - 1);
 
-        // MoveX
-        // Add these to the next to if statements if you decide to put animation back on:  && (bool)parent.GetAttributeVariable("AnimationAttribute", "setParentDimensions")
+        // Move X
         if (Keyboard.GetState().IsKeyDown(Keys.A))
         {
-            movement.x += -speed;
-
-            // Run the animation
-            /*parent.SetAttributeVariable("AnimationAttribute", "currentAnimation", 0);
-            parent.SetAttributeVariable("AnimationAttribute", "playing", true);
-            parent.SetAttributeVariable("AnimationAttribute", "looping", true);*/
+            movement.X += -speed;
         } else if (Keyboard.GetState().IsKeyDown(Keys.D))
         {
-            movement.x += speed;
-
-            // Run the animation
-            /*parent.SetAttributeVariable("AnimationAttribute", "currentAnimation", 0);
-            parent.SetAttributeVariable("AnimationAttribute", "playing", true);
-            parent.SetAttributeVariable("AnimationAttribute", "looping", true);*/
-        } else
-        {
-            /*parent.SetAttributeVariable("AnimationAttribute", "playing", false);
-            parent.CallAttributeMethod("AnimationAttribute", "SetToDefault");*/
+            movement.X += speed;
         }
 
-        // MoveY
-        // Add these to the next to if statements if you decide to put animation back on:  && (bool)parent.GetAttributeVariable("AnimationAttribute", "setParentDimensions")
-        if (Keyboard.GetState().IsKeyDown(Keys.W))
+        // Jump
+        if ((Keyboard.GetState().IsKeyDown(Keys.Space) || Keyboard.GetState().IsKeyDown(Keys.W)) && grounded)
         {
-            movement.y += -speed;
-
-            // Run the animation
-            /*parent.SetAttributeVariable("AnimationAttribute", "currentAnimation", 0);
-            parent.SetAttributeVariable("AnimationAttribute", "playing", true);
-            parent.SetAttributeVariable("AnimationAttribute", "looping", true);*/
-        } else if (Keyboard.GetState().IsKeyDown(Keys.S))
-        {
-            movement.y += speed;
-
-            // Run the animation
-            /*parent.SetAttributeVariable("AnimationAttribute", "currentAnimation", 0);
-            parent.SetAttributeVariable("AnimationAttribute", "playing", true);
-            parent.SetAttributeVariable("AnimationAttribute", "looping", true);*/
-        } else
-        {
-            /*parent.SetAttributeVariable("AnimationAttribute", "playing", false);
-            parent.CallAttributeMethod("AnimationAttribute", "SetToDefault");*/
+            velocity.Y = -10;
         }
+
+        // Velocity
+        if (!grounded && velocity.Y < 10)
+        {
+            velocity.Y += 1;
+        }
+
+        if (velocity.Y > 0 && grounded)
+        {
+            velocity.Y = 0;
+        }
+        movement.Y += velocity.Y;
+        movement.X += velocity.X;
 
         // Final movements
-        if (movement.x != 0)
+        if (movement.X != 0)
         {
-            MoveX(movement.x);
+            MoveX(movement.X);
         }
 
-        if (movement.y != 0)
+        if (movement.Y != 0)
         {
-            MoveY(movement.y);
+            MoveY(movement.Y);
+            CheckIfGrounded();
+        }
+
+        if (velocity.Y < 0 || movement.Y < 0)
+        {
+            grounded = false;
         }
 
         // Reset movement
-        movement.y = 0; movement.x = 0;
+        movement.Y = 0; movement.X = 0;
+
+        if (grounded != baseGrounded)
+        {
+            parent.SetAttributeVariable("PlayerManager", "grounded", grounded);
+        }
     }
 
     public void MoveX(int amount)
@@ -138,10 +122,10 @@ public class MovementComponent : Component
             List<object> collision = Collision.CheckXCollision(i, parent);
             if (!(bool)collision[0])
             {
-                parent.position.x += i;
+                parent.position.X += i;
             } else
             {
-                parent.position.x += (int)collision[1];
+                parent.position.X += (int)collision[1];
                 break;
             }
         }
@@ -172,24 +156,24 @@ public class MovementComponent : Component
 
             if (!(bool)collision[0])
             {
-                parent.position.y += i;
+                parent.position.Y += i;
             } else
             {
-                parent.position.y += (int)collision[1];
+                parent.position.Y += (int)collision[1];
                 break;
             }
         }
     }
 
-    public void SetToRightSideUp()
+    // Checks if the game object is grounded. If so, it sets grounded to be true
+    void CheckIfGrounded()
     {
-            gravity = GRAVITY;
-            rightSideUp = true;
-    }
-
-    public void SetToWrongSideUp()
-    {
-        gravity = -GRAVITY;
-        rightSideUp = false;
+        List<object> collision = Collision.CheckYCollision(1, parent);
+        if ((bool)collision[0])
+        {
+            grounded = true;
+        } else {
+            grounded = false;
+        }
     }
 }

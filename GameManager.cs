@@ -92,8 +92,8 @@ public class GameManager : Game
         foreach (GameObject obj in currentLevel.GameObjects.ToArray())
         {
             // Set the rect of the GameObject
-            obj.rect.X = obj.position.x;
-            obj.rect.Y = obj.position.y;
+            obj.rect.X = obj.position.X;
+            obj.rect.Y = obj.position.Y;
 
             // Run the update functions of every Component of every GameObject
             if (obj.attributes != null)
@@ -126,7 +126,7 @@ public class GameManager : Game
                 } else
                 {
                     {
-                        _spriteBatch.Draw(obj.sprite, new Rectangle(obj.rect.X, obj.rect.Y, obj.width * obj.sizeMultiplier.x, obj.height * obj.sizeMultiplier.y), obj.cropRect, Color.White);
+                        _spriteBatch.Draw(obj.sprite, new Rectangle(obj.rect.X, obj.rect.Y, obj.width * obj.sizeMultiplier.X, obj.height * obj.sizeMultiplier.Y), obj.cropRect, Color.White);
                     }
                 }
             }
@@ -192,7 +192,7 @@ public class GameManager : Game
 
                 Rectangle tilesetRec = new(_tileWidth * column, _tileHeight * row, _tileWidth, _tileHeight);
 
-                GameObject newTile = new(_tilesetTexture, tilesetRec, new Vector2Int((int)x, (int)y), new Vector2Int(1, 1), "tile", currentLevel);
+                GameObject newTile = new(_tilesetTexture, tilesetRec, new Point((int)x, (int)y), new Point(1, 1), "tile", currentLevel);
 
                 /*switch (gid)
                 {

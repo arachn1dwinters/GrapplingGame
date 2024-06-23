@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GrapplingGame.GameObjectsComponentsLevels.Helpers;
 using GrapplingGame.GameObjectsComponentsLevels.GameObjects;
 using GrapplingGame;
+using Microsoft.Xna.Framework;
 
 using Microsoft.Xna.Framework.Input;
 
@@ -20,10 +21,9 @@ namespace GrapplingGame.GameObjectsComponentsLevels.Levels
             tiledMap = "Level1.tmx";
             parent.CreateMap(tiledMap);
 
-            player = new(parent.playerSprite, new Vector2Int(50, 50), new Vector2Int(1, 1), "player", this, new()
+            player = new(parent.playerSprite, new Point(50, 50), new Point(1, 1), "player", this, new()
             {
                 "MovementComponent",
-                "PhysicsComponent",
                 //"AnimationAttribute"
             });
             /*player.SetAttributeVariable("AnimationAttribute", "frameHeight", 16);

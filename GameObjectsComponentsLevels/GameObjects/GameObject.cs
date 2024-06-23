@@ -17,14 +17,14 @@ public class GameObject
     // Sprite and rect
     public Rectangle rect;
     public Texture2D sprite;
-    public Vector2Int position;
-    public Vector2Int sizeMultiplier;
+    public Point position;
+    public Point sizeMultiplier;
     public Rectangle cropRect;
     public int height;
     public int width;
     public bool cropped;
     public int rotation;
-    public Vector2Int topLeftCorner = new(0, 0);
+    public Point topLeftCorner = new(0, 0);
     public bool dontRender;
 
     // Parents
@@ -36,7 +36,7 @@ public class GameObject
     public bool collidable = true;
 
     // Regular GameObject
-    public GameObject(Texture2D sprite, Vector2Int position, Vector2Int sizeMultiplier, string type, Level parent, List<string> attributesToAdd = null)
+    public GameObject(Texture2D sprite, Point position, Point sizeMultiplier, string type, Level parent, List<string> attributesToAdd = null)
     {
         // Creating attributes, position, size, and sprite
         this.attributes = new();
@@ -45,7 +45,7 @@ public class GameObject
         this.sizeMultiplier = sizeMultiplier;
 
         // Creating the rectangle
-        rect = new(position.x, position.y, sprite.Width * sizeMultiplier.x, sprite.Height * sizeMultiplier.y);
+        rect = new(position.X, position.Y, sprite.Width * sizeMultiplier.X, sprite.Height * sizeMultiplier.Y);
         this.width = sprite.Width;
         this.height = sprite.Height;
 
@@ -75,7 +75,7 @@ public class GameObject
     }
 
     // GameObject without a sprite
-    public GameObject(Vector2Int size, Vector2Int topLeftCorner, Vector2Int position, Vector2Int sizeMultiplier, string type, Level parent, List<string> attributesToAdd = null)
+    public GameObject(Point size, Point topLeftCorner, Point position, Point sizeMultiplier, string type, Level parent, List<string> attributesToAdd = null)
     {
         // Creating attributes, position, size, and sprite
         this.attributes = new();
@@ -83,9 +83,9 @@ public class GameObject
         this.sizeMultiplier = sizeMultiplier;
 
         // Creating the rectangle
-        rect = new(position.x, position.y, size.x * sizeMultiplier.x, size.y * sizeMultiplier.y);
-        width = size.x;
-        height = size.y;
+        rect = new(position.X, position.X, size.X * sizeMultiplier.X, size.Y * sizeMultiplier.Y);
+        width = size.X;
+        height = size.Y;
         this.topLeftCorner = topLeftCorner;
 
         // Create attributes
@@ -108,7 +108,7 @@ public class GameObject
     }
 
     // For a cropped object with a different size
-    public GameObject(Texture2D sprite, Rectangle cropRect, Vector2Int size, Vector2Int topLeftCorner, Vector2Int position, Vector2Int sizeMultiplier, string type, Level parent, List<string> attributesToAdd = null)
+    public GameObject(Texture2D sprite, Rectangle cropRect, Point size, Point topLeftCorner, Point position, Point sizeMultiplier, string type, Level parent, List<string> attributesToAdd = null)
     {
         // Creating attributes, position, size, and sprite
         this.attributes = new();
@@ -117,11 +117,11 @@ public class GameObject
         this.sizeMultiplier = sizeMultiplier;
 
         // Creating the rectangle
-        rect = new(position.x, position.y, sprite.Width * sizeMultiplier.x, sprite.Height * sizeMultiplier.y);
+        rect = new(position.X, position.Y, sprite.Width * sizeMultiplier.X, sprite.Height * sizeMultiplier.Y);
         cropped = true;
         this.cropRect = cropRect;
-        width = size.x;
-        height = size.y;
+        width = size.X;
+        height = size.Y;
         this.topLeftCorner = topLeftCorner;
 
         // Create attributes
@@ -144,7 +144,7 @@ public class GameObject
     }
 
     // For a cropped object
-    public GameObject(Texture2D sprite, Rectangle cropRect, Vector2Int position, Vector2Int sizeMultiplier, string type, Level parent, List<string> attributesToAdd = null)
+    public GameObject(Texture2D sprite, Rectangle cropRect, Point position, Point sizeMultiplier, string type, Level parent, List<string> attributesToAdd = null)
     {
         // Creating attributes, position, size, and sprite
         this.attributes = new();
@@ -153,7 +153,7 @@ public class GameObject
         this.sizeMultiplier = sizeMultiplier;
 
         // Creating the rectangle
-        rect = new(position.x, position.y, sprite.Width * sizeMultiplier.x, sprite.Height * sizeMultiplier.y);
+        rect = new(position.X, position.Y, sprite.Width * sizeMultiplier.X, sprite.Height * sizeMultiplier.Y);
         cropped = true;
         this.cropRect = cropRect;
         this.width = cropRect.Width;

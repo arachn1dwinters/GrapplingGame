@@ -26,7 +26,7 @@ public class Collision
                 {
                     if (obj.collidable)
                     {
-                        Rectangle newObjRect = new(obj.rect.X + obj.topLeftCorner.x, obj.rect.Y + obj.topLeftCorner.y, obj.width, obj.height);
+                        Rectangle newObjRect = new(obj.rect.X + obj.topLeftCorner.X, obj.rect.Y + obj.topLeftCorner.Y, obj.width, obj.height);
 
                         // Check if we are colliding with that object
                         if (obj.cropped)
@@ -85,7 +85,7 @@ public class Collision
                 {
                     if (obj.collidable)
                     {
-                        Rectangle newObjRect = new(obj.rect.X + obj.topLeftCorner.x, obj.rect.Y + obj.topLeftCorner.y, obj.width, obj.height);
+                        Rectangle newObjRect = new(obj.rect.X + obj.topLeftCorner.X, obj.rect.Y + obj.topLeftCorner.Y, obj.width, obj.height);
 
                         // Check if we are colliding with that object
                         if (obj.cropped)
@@ -145,8 +145,8 @@ public class Collision
         bool yColliding = false;
         int yCollisionRemainder = 0;
 
-            if (amount / Math.Abs(amount) == -1)
-            {
+        if (amount / Math.Abs(amount) == -1)
+        {
             // Check upper edge
             for (int e = 0; e < parent.width; e++)
             {
@@ -157,7 +157,7 @@ public class Collision
                 {
                     if (obj.collidable)
                     {
-                        Rectangle newObjRect = new(obj.rect.X + obj.topLeftCorner.x, obj.rect.Y + obj.topLeftCorner.y, obj.width, obj.height);
+                        Rectangle newObjRect = new(obj.rect.X + obj.topLeftCorner.X, obj.rect.Y + obj.topLeftCorner.Y, obj.width, obj.height);
                         // Check if we are colliding with that object
                         if (obj.cropped)
                         {
@@ -202,7 +202,7 @@ public class Collision
                     }
                 }
             }
-            }
+        }
         else
         {
             // Check lower edge
@@ -215,7 +215,7 @@ public class Collision
                 {
                     if (obj.collidable)
                     {
-                        Rectangle newObjRect = new(obj.rect.X + obj.topLeftCorner.x, obj.rect.Y + obj.topLeftCorner.y, obj.width, obj.height);
+                        Rectangle newObjRect = new(obj.rect.X + obj.topLeftCorner.X, obj.rect.Y + obj.topLeftCorner.Y, obj.width, obj.height);
 
                         // Check if we are colliding with that object
                         if (obj.cropped)
@@ -260,7 +260,7 @@ public class Collision
                 }
             }
         }
-
+        
         return new()
         {
             yColliding,
