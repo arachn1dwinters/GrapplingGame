@@ -27,3 +27,5 @@
 /Users/orchidwinters/Projects/grapplingGame/obj/Debug/net6.0/ref/GrapplingGame.dll
 /Users/orchidwinters/Projects/grapplingGame/bin/Debug/net6.0/Content/tilemaps/tileset.xnb
 /Users/orchidwinters/Projects/grapplingGame/obj/Debug/net6.0/GrapplingGame.sourcelink.json
+/Users/orchidwinters/Projects/grapplingGame/bin/Debug/net6.0/Content/grappling_gun.xnb
+/Users/orchidwinters/Projects/grapplingGame/bin/Debug/net6.0/Content/TargetActive.xnb

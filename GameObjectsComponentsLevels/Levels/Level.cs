@@ -9,7 +9,7 @@ namespace GrapplingGame.GameObjectsComponentsLevels.Levels;
 public class Level
 {
 	public virtual List<GameObject> GameObjects { get; set; }
-	public virtual List<object> UIElements { get; set; }
+    public List<GameObject> targets = new();
 
 	public virtual string tiledMap { get; set; }
 	public GameManager parent;
@@ -29,8 +29,6 @@ public class Level
 
 	public virtual void Update(){ }
 	public virtual void Initialize() { }
-
-	public virtual void playerRespawn() { }
 
 	public void Remove()
 	{

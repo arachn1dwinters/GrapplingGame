@@ -4,11 +4,15 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
+    <File>/Users/orchidwinters/Projects/grapplingGame/Content/grappling_gun.png</File>
     <File>/Users/orchidwinters/Projects/grapplingGame/Content/player_sprite.png</File>
+    <File>/Users/orchidwinters/Projects/grapplingGame/Content/TargetActive.png</File>
     <File>/Users/orchidwinters/Projects/grapplingGame/Content/tilemaps/tileset.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File>Player.png</File>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
   </DestFiles>
 </SourceFileCollection>

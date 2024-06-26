@@ -23,9 +23,10 @@ public class GameObject
     public int height;
     public int width;
     public bool cropped;
-    public int rotation;
     public Point topLeftCorner = new(0, 0);
     public bool dontRender;
+    public float Rotation = 0;
+    public Vector2 origin = new(0, 0);
 
     // Parents
     public Level parent;

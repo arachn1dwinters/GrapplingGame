@@ -1,3 +1,5 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"/Users/orchidwinters/Projects/grapplingGame/Content/grappling_gun.png","/Users/orchidwinters/Projects/grapplingGame/Content/bin/DesktopGL/Content/grappling_gun.xnb","TextureProcessor","Texture2DContent",601,13397,0.221854
 "/Users/orchidwinters/Projects/grapplingGame/Content/player_sprite.png","/Users/orchidwinters/Projects/grapplingGame/Content/bin/DesktopGL/Content/Player.xnb","TextureProcessor","Texture2DContent",190,4181,0.601159
-"/Users/orchidwinters/Projects/grapplingGame/Content/tilemaps/tileset.png","/Users/orchidwinters/Projects/grapplingGame/Content/bin/DesktopGL/Content/tilemaps/tileset.xnb","TextureProcessor","Texture2DContent",251,65621,0.208129
+"/Users/orchidwinters/Projects/grapplingGame/Content/TargetActive.png","/Users/orchidwinters/Projects/grapplingGame/Content/bin/DesktopGL/Content/TargetActive.xnb","TextureProcessor","Texture2DContent",302,4181,0.228336
+"/Users/orchidwinters/Projects/grapplingGame/Content/tilemaps/tileset.png","/Users/orchidwinters/Projects/grapplingGame/Content/bin/DesktopGL/Content/tilemaps/tileset.xnb","TextureProcessor","Texture2DContent",441,65621,0.211008

@@ -12,6 +12,7 @@ using GrapplingGame.GameObjectsComponentsLevels.GameObjects;
 using GrapplingGame.GameObjectsComponentsLevels.Levels;
 using GrapplingGame.GameObjectsComponentsLevels.Components;
 using GrapplingGame.GameObjectsComponentsLevels.Helpers;
+using System.Numerics;
 
 namespace GrapplingGame;
 public class GameManager : Game
@@ -21,6 +22,8 @@ public class GameManager : Game
 
     // Texture2Ds
     public Texture2D playerSprite;
+    public Texture2D grapplingGunSprite;
+    public Texture2D targetActiveSprite;
          
     // Fonts
     public SpriteFont pixelmix;
@@ -48,7 +51,6 @@ public class GameManager : Game
     private int _tilesetTilesHeight;
     public List<GameObject> tiles = new();
 
-
     public GameManager()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -61,8 +63,8 @@ public class GameManager : Game
     {
         base.Initialize();
 
-        _graphics.PreferredBackBufferWidth = 600;
-        _graphics.PreferredBackBufferHeight = 600;
+        _graphics.PreferredBackBufferWidth = 540;
+        _graphics.PreferredBackBufferHeight = 540;
         _graphics.ApplyChanges();
 
         //var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, 400, 400);
@@ -76,6 +78,8 @@ public class GameManager : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
         playerSprite = this.Content.Load<Texture2D>("Player");
+        grapplingGunSprite = Content.Load<Texture2D>("grappling_gun");
+        targetActiveSprite = Content.Load<Texture2D>("TargetActive");
 
         // Add it to the desktop
         /*_desktop = new Desktop();
@@ -122,12 +126,10 @@ public class GameManager : Game
             {
                 if (obj.cropped == false)
                 {
-                    _spriteBatch.Draw(obj.sprite, obj.rect, Color.White);
+                    _spriteBatch.Draw(obj.sprite, new Microsoft.Xna.Framework.Vector2(obj.position.X, obj.position.Y), null, Color.White, obj.Rotation, obj.origin, new Microsoft.Xna.Framework.Vector2(obj.sizeMultiplier.X, obj.sizeMultiplier.Y), SpriteEffects.None, 1);
                 } else
                 {
-                    {
-                        _spriteBatch.Draw(obj.sprite, new Rectangle(obj.rect.X, obj.rect.Y, obj.width * obj.sizeMultiplier.X, obj.height * obj.sizeMultiplier.Y), obj.cropRect, Color.White);
-                    }
+                    _spriteBatch.Draw(obj.sprite, new Rectangle(obj.rect.X, obj.rect.Y, obj.width * obj.sizeMultiplier.X, obj.height * obj.sizeMultiplier.Y), obj.cropRect, Color.White);
                 }
             }
         }
@@ -156,8 +158,6 @@ public class GameManager : Game
         _map = new TiledMap(path + "/" + Content.RootDirectory + "/tilemaps/" + tiledLevel);
         _tileset = new TiledTileset(path + "/" + Content.RootDirectory + "/tilemaps/Tileset.tsx");
 
-        // Not the best way to do this but it works. It looks for "tileset.xnb" file
-        // which is the result of building the image file with "Content.mgcb".
         _tilesetTexture = Content.Load<Texture2D>("tilemaps/tileset");
 
         _tileWidth = _tileset.TileWidth;
@@ -187,17 +187,22 @@ public class GameManager : Game
                 int column = tileFrame % _tilesetTilesWide;
                 int row = (int)Math.Floor((double)tileFrame / (double)_tilesetTilesWide);
 
-                float x = (i % _map.Width) * _map.TileWidth;
-                float y = (float)Math.Floor(i / (double)_map.Width) * _map.TileHeight;
+                int x = (i % _map.Width) * _map.TileWidth;
+                int y = (i / _map.Width) * _map.TileHeight;
 
                 Rectangle tilesetRec = new(_tileWidth * column, _tileHeight * row, _tileWidth, _tileHeight);
 
                 GameObject newTile = new(_tilesetTexture, tilesetRec, new Point((int)x, (int)y), new Point(1, 1), "tile", currentLevel);
 
-                /*switch (gid)
+                switch (gid)
                 {
                     // Add special tile code here
-                }*/
+                    case 2:
+                        newTile.type = "target";
+                        newTile.AddAttribute("TargetComponent");
+                        currentLevel.targets.Add(newTile);
+                        break;
+                }
             }
         }
     }

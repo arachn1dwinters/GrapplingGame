@@ -15,7 +15,7 @@ namespace GrapplingGame.GameObjectsComponentsLevels.Components;
 public class MovementComponent : Component
 {
     // Movement and speed2
-    int speed = 2;
+    readonly int speed = 4;
     Point movement = new();
     public bool rightSideUp = true;
 
@@ -28,6 +28,10 @@ public class MovementComponent : Component
     public bool grounded;
 
     public override string type { get; set; }
+
+    // Adding this here because the movement component is exclusive to the player
+    public GameObject GrappleGun;
+
 
     public MovementComponent(GameObject parent) : base(parent)
     {
@@ -123,9 +127,11 @@ public class MovementComponent : Component
             if (!(bool)collision[0])
             {
                 parent.position.X += i;
+                GrappleGun.position.X += i;
             } else
             {
                 parent.position.X += (int)collision[1];
+                GrappleGun.position.X += (int)collision[1];
                 break;
             }
         }
@@ -157,9 +163,11 @@ public class MovementComponent : Component
             if (!(bool)collision[0])
             {
                 parent.position.Y += i;
+                GrappleGun.position.Y += i;
             } else
             {
                 parent.position.Y += (int)collision[1];
+                GrappleGun.position.Y += (int)collision[1];
                 break;
             }
         }
