@@ -34,7 +34,9 @@ namespace GrapplingGame.GameObjectsComponentsLevels.Levels
             {
                 4,
             });*/
-            grappleGun = new(parent.grapplingGunSprite, new Point(50, 66), new Point(1, 1), "Grappling Gun", this, new()
+            Player = player;
+
+            grappleGun = new(parent.grapplingGunSprite, new Point(66, 66), new Point(1, 1), "Grappling Gun", this, new()
             {
                 "GrappleGunComponent"
             })
