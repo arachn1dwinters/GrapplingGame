@@ -55,6 +55,8 @@ public class AnimationComponent : Component
 
     public override void Update(GameTime gameTime)
     {
+        base.Update(gameTime);
+
         timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
         currentText = timer.ToString();
 

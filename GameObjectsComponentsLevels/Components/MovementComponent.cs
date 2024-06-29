@@ -41,9 +41,9 @@ public class MovementComponent : Component
         gravity = GLOBALS.GRAVITY;
     }
 
-    public override void Update(GameTime gameTime)
+    public override void FixedUpdate(GameTime gameTime)
     {
-        base.Update(gameTime);
+        base.FixedUpdate(gameTime);
 
         bool baseGrounded = grounded;
 
@@ -63,7 +63,7 @@ public class MovementComponent : Component
         // Jump
         if ((Keyboard.GetState().IsKeyDown(Keys.Space) || Keyboard.GetState().IsKeyDown(Keys.W)) && grounded)
         {
-            velocity.Y = -11;
+            velocity.Y = -10;
         }
 
         // Velocity
