@@ -63,7 +63,7 @@ public class MovementComponent : Component
         // Jump
         if ((Keyboard.GetState().IsKeyDown(Keys.Space) || Keyboard.GetState().IsKeyDown(Keys.W)) && grounded)
         {
-            velocity.Y = -10;
+            velocity.Y = -11;
         }
 
         // Velocity
