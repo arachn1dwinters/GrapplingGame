@@ -15,6 +15,8 @@ public class Level
 	public GameManager parent;
 	public int index;
 
+    public GameObject Player;
+
 	public Level(GameManager parent, bool respawn)
 	{
 		GameObjects = new();

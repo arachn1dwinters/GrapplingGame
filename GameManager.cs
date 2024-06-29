@@ -132,6 +132,17 @@ public class GameManager : Game
                     _spriteBatch.Draw(obj.sprite, new Rectangle(obj.rect.X, obj.rect.Y, obj.width * obj.sizeMultiplier.X, obj.height * obj.sizeMultiplier.Y), obj.cropRect, Color.White);
                 }
             }
+
+            if (obj.type == "target")
+            {
+                if ((bool)obj.GetAttributeVariable("TargetComponent", "Active"))
+                {
+                    GameObject grappleGun = (GameObject)currentLevel.Player.GetAttributeVariable("MovementComponent", "GrappleGun");
+                    Point startPos = (Point)grappleGun.GetAttributeVariable("GrappleGunComponent", "TipOfGun");
+                    Point endPos = new(obj.position.X + 16, obj.position.Y + 16);
+                    Functions.DrawLineBetween(_spriteBatch, startPos, endPos, 3, Color.White);
+                }
+            }
         }
 
         _spriteBatch.End();
