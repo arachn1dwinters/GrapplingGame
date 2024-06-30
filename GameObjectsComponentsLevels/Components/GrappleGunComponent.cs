@@ -7,14 +7,12 @@ using Microsoft.Xna.Framework.Graphics;
 namespace GrapplingGame.GameObjectsComponentsLevels.Components;
 public class GrappleGunComponent : Component
 {
-    public Point TipOfGun = new(170, 66);
-
     public Point TipOfGun;
 
     public GrappleGunComponent(GameObject parent) : base(parent)
     {
         type = "GrappleGunComponent";
-        TipOfGun = new(parent.position.X + 104, 32);
+        TipOfGun = new(parent.position.X + 104, parent.position.Y + 32);
     }
 
     public override void Update(GameTime gameTime)
@@ -30,13 +28,14 @@ public class GrappleGunComponent : Component
                 int dY = target.position.Y - parent.position.Y;
 
                 parent.Rotation = (float)Math.Atan2(dY, dX);
-
+                TipOfGun.X = (int)(parent.position.X + 104 * Math.Cos(parent.Rotation));
+                TipOfGun.Y = (int)(parent.position.Y + 104 * Math.Sin(parent.Rotation));
                 
-                parent.parent.ActiveTarget = target;
+                parent.parent.CurrentActiveTarget = target;
                 break;
             }
 
-            parent.parent.ActiveTarget = null;
+            parent.parent.CurrentActiveTarget = null;
         }
     }
 }

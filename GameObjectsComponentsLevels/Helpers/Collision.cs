@@ -12,9 +12,10 @@ public class Collision
     {
         bool xColliding = false;
         int xCollisionRemainder = 0;
+        string colliderType = "";
 
         // Add that step as long as it isn't colliding with anything
-        if (amount / Math.Abs(amount) == -1)
+        if (Math.Sign(amount) <= 0)
         {
             // Check leftmost edge
             for (int e = 0; e < parent.height; e++)
@@ -46,6 +47,7 @@ public class Collision
                                 {
                                     xCollisionRemainder = 0;
                                 }
+                                colliderType = obj.type;
                                 break;
                             }
                         }
@@ -66,6 +68,7 @@ public class Collision
                                 {
                                     xCollisionRemainder = 0;
                                 }
+                                colliderType = obj.type;
                                 break;
                             }
                         }
@@ -105,6 +108,7 @@ public class Collision
                                 {
                                     xCollisionRemainder = 0;
                                 }
+                                colliderType = obj.type;
                                 break;
                             }
                         }
@@ -125,6 +129,7 @@ public class Collision
                                 {
                                     xCollisionRemainder = 0;
                                 }
+                                colliderType = obj.type;
                                 break;
                             }
                         }
@@ -136,7 +141,8 @@ public class Collision
         return new()
         {
             xColliding,
-            xCollisionRemainder
+            xCollisionRemainder,
+            colliderType
         };
     }
 
@@ -144,8 +150,9 @@ public class Collision
     {
         bool yColliding = false;
         int yCollisionRemainder = 0;
+        string colliderType = "";
 
-        if (amount / Math.Abs(amount) == -1)
+        if (Math.Sign(amount) < 0)
         {
             // Check upper edge
             for (int e = 0; e < parent.width; e++)
@@ -176,6 +183,7 @@ public class Collision
                                 {
                                     yCollisionRemainder = 0;
                                 }
+                                colliderType = obj.type;
                                 break;
                             }
                         }
@@ -196,6 +204,7 @@ public class Collision
                                 {
                                     yCollisionRemainder = 0;
                                 }
+                                colliderType = obj.type;
                                 break;
                             }
                         }
@@ -235,6 +244,7 @@ public class Collision
                                 {
                                     yCollisionRemainder = 0;
                                 }
+                                colliderType = obj.type;
                             }
                         }
                         else
@@ -254,6 +264,7 @@ public class Collision
                                 {
                                     yCollisionRemainder = 0;
                                 }
+                                colliderType = obj.type;
                             }
                         }
                     }
@@ -264,7 +275,8 @@ public class Collision
         return new()
         {
             yColliding,
-            yCollisionRemainder
+            yCollisionRemainder,
+            colliderType
         };
     }
 }

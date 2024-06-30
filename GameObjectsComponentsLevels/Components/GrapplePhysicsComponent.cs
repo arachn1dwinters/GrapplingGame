@@ -5,20 +5,20 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GrapplingGame.GameObjectsComponentsLevels.Components;
-public class GrappleComponent : Component
+public class GrapplePhysicsComponent : Component
 {
-    public GrappleComponent(GameObject parent) : base(parent)
+    public GrapplePhysicsComponent(GameObject parent) : base(parent)
     {
-        type = "GrappleComponent";
+        type = "GrapplePhysicsComponent";
     }
 
     public override void FixedUpdate(GameTime gameTime)
     {
         base.FixedUpdate(gameTime);
 
-        if (parent.parent.ActiveTarget != null)
+        if (parent.parent.CurrentActiveTarget != null)
         {
-            
+            parent.CallAttributeMethod("MovementComponent", "MoveX",  new object[] {5});
         }
     }
 }

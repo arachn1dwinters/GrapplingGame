@@ -29,3 +29,34 @@
 /Users/orchidwinters/Projects/grapplingGame/obj/Debug/net6.0/GrapplingGame.sourcelink.json
 /Users/orchidwinters/Projects/grapplingGame/bin/Debug/net6.0/Content/grappling_gun.xnb
 /Users/orchidwinters/Projects/grapplingGame/bin/Debug/net6.0/Content/TargetActive.xnb
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\bin\Debug\net6.0\Content\grappling_gun.xnb
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\bin\Debug\net6.0\Content\Player.xnb
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\bin\Debug\net6.0\Content\TargetActive.xnb
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\bin\Debug\net6.0\Content\tilemaps\tileset.xnb
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\bin\Debug\net6.0\GrapplingGame.exe
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\bin\Debug\net6.0\GrapplingGame.deps.json
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\bin\Debug\net6.0\GrapplingGame.runtimeconfig.json
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\bin\Debug\net6.0\GrapplingGame.dll
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\bin\Debug\net6.0\GrapplingGame.pdb
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\bin\Debug\net6.0\MonoGame.Framework.dll
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\bin\Debug\net6.0\TiledCS.dll
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\bin\Debug\net6.0\runtimes\linux-x64\native\libSDL2-2.0.so.0
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\bin\Debug\net6.0\runtimes\linux-x64\native\libopenal.so.1
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\bin\Debug\net6.0\runtimes\osx\native\libSDL2.dylib
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\bin\Debug\net6.0\runtimes\osx\native\libopenal.1.dylib
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\bin\Debug\net6.0\runtimes\win-x64\native\SDL2.dll
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\bin\Debug\net6.0\runtimes\win-x64\native\soft_oal.dll
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\bin\Debug\net6.0\runtimes\win-x86\native\SDL2.dll
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\bin\Debug\net6.0\runtimes\win-x86\native\soft_oal.dll
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\obj\Debug\net6.0\GrapplingGame.csproj.AssemblyReference.cache
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\obj\Debug\net6.0\GrapplingGame.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\obj\Debug\net6.0\GrapplingGame.AssemblyInfoInputs.cache
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\obj\Debug\net6.0\GrapplingGame.AssemblyInfo.cs
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\obj\Debug\net6.0\GrapplingGame.csproj.CoreCompileInputs.cache
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\obj\Debug\net6.0\GrapplingGame.sourcelink.json
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\obj\Debug\net6.0\Grapplin.C4D93D1C.Up2Date
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\obj\Debug\net6.0\GrapplingGame.dll
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\obj\Debug\net6.0\refint\GrapplingGame.dll
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\obj\Debug\net6.0\GrapplingGame.pdb
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\obj\Debug\net6.0\GrapplingGame.genruntimeconfig.cache
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\obj\Debug\net6.0\ref\GrapplingGame.dll

@@ -7,12 +7,12 @@ using System.IO;
 using System.Reflection;
 using System.Collections.Generic;
 using TiledCS;
-
+ 
 using GrapplingGame.GameObjectsComponentsLevels.GameObjects;
 using GrapplingGame.GameObjectsComponentsLevels.Levels;
 using GrapplingGame.GameObjectsComponentsLevels.Components;
 using GrapplingGame.GameObjectsComponentsLevels.Helpers;
-using System.Numerics;
+using System.Diagnostics;
 
 namespace GrapplingGame;
 public class GameManager : Game
@@ -108,7 +108,6 @@ public class GameManager : Game
                 }
             }
         }        
-
         currentLevel.Update();
     }
 
@@ -212,6 +211,9 @@ public class GameManager : Game
                         newTile.type = "target";
                         newTile.AddAttribute("TargetComponent");
                         currentLevel.targets.Add(newTile);
+                        break;
+                    case 3:
+                        newTile.type = "ladder";
                         break;
                 }
             }
