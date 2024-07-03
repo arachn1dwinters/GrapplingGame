@@ -15,32 +15,27 @@ using System.Diagnostics;
 namespace GrapplingGame.GameObjectsComponentsLevels.Components;
 public class MovementComponent : Component
 {
-    // Movement and speed2
-    readonly int speed = 4;
-    Point movement = new();
+    // Movement and speed
+    readonly int speed = 2;
+    public Point Movement = new();
     public bool rightSideUp = true;
 
-    // The step count of every movement: spriteWidth + the width of the smallest possible tile - 1
+    // The step count of every Movement: spriteWidth + the width of the smallest possible tile - 1
     int xStep, yStep;
 
-    // Physics and velocity
-    Point velocity;
+    // Physics and Velocity
+    public Point Velocity;
     int gravity;
     public bool Grounded;
-    bool Climbing;
+    bool climbing;
+    public bool Grappling;
 
     public override string type { get; set; }
-
-    // Adding this here because the movement component is exclusive to the player
-    public GameObject GrappleGun;
-
 
     public MovementComponent(GameObject parent) : base(parent)
     {
         // Set type 
         type = "MovementComponent";
-
-        gravity = GLOBALS.GRAVITY;
     }
 
     public override void FixedUpdate(GameTime gameTime)
@@ -54,53 +49,91 @@ public class MovementComponent : Component
         yStep = parent.height * parent.sizeMultiplier.X + (12 - 1);
 
         // Move X
-        if (Keyboard.GetState().IsKeyDown(Keys.A))
+        if (!Grappling)
         {
-            movement.X += -speed;
-        } else if (Keyboard.GetState().IsKeyDown(Keys.D))
-        {
-            movement.X += speed;
+            if (Keyboard.GetState().IsKeyDown(Keys.A))
+            {
+                Movement.X += -speed;
+            } else if (Keyboard.GetState().IsKeyDown(Keys.D))
+            {
+                Movement.X += speed;
+            } if (Keyboard.GetState().IsKeyDown(Keys.A))
+            {
+                Movement.X += -speed;
+            } else if (Keyboard.GetState().IsKeyDown(Keys.D))
+            {
+                Movement.X += speed;
+            } if (Keyboard.GetState().IsKeyDown(Keys.A))
+            {
+                Movement.X += -speed;
+            } else if (Keyboard.GetState().IsKeyDown(Keys.D))
+            {
+                Movement.X += speed;
+            } if (Keyboard.GetState().IsKeyDown(Keys.A))
+            {
+                Movement.X += -speed;
+            } else if (Keyboard.GetState().IsKeyDown(Keys.D))
+            {
+                Movement.X += speed;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.A))
+            {
+                Movement.X += -speed;
+            }
+            else if (Keyboard.GetState().IsKeyDown(Keys.D))
+            {
+                Movement.X += speed;
+            }
         }
 
         // Jump
         if ((Keyboard.GetState().IsKeyDown(Keys.Space) || Keyboard.GetState().IsKeyDown(Keys.W)) && Grounded)
         {
-            velocity.Y = -10;
+            Velocity.Y = -10;
+        }
+        
+        // Momentum on the X axis
+        if (Velocity.X != 0)
+        {
+            Velocity.X = Velocity.X -= 1;
         }
 
         // Gravity
-        if (!Grounded && !Climbing && velocity.Y < 10)
+        if (!Grounded && !climbing && !Grappling && Velocity.Y < 10)
         {
-            velocity.Y += 1;
+            Velocity.Y += 1;
         }
 
-        if (velocity.Y > 0 && Grounded)
+        if (Velocity.Y > 0)
         {
-            velocity.Y = 0;
+            if (Grounded || Grappling || climbing)
+            {
+                Velocity.Y = 0;
+            }
         }
-        movement.Y += velocity.Y;
-        movement.X += velocity.X;
+        Movement.Y += Velocity.Y;
+        Movement.X += Velocity.X;
 
-        // Final movements
-        if (movement.X != 0)
+        // Final Movements
+        if (Movement.X != 0)
         {
-            MoveX(movement.X);
+            MoveX(Movement.X);
             CheckIfGrounded();
         }
 
-        if (movement.Y != 0)
+        if (Movement.Y != 0)
         {
-            MoveY(movement.Y);
+            MoveY(Movement.Y);
             CheckIfGrounded();
         }
 
-        if (velocity.Y < 0 || movement.Y < 0)
+        if (Velocity.Y < 0 || Movement.Y < 0)
         {
             Grounded = false;
         }
 
-        // Reset movement
-        movement.Y = 0; movement.X = 0;
+        // Reset Movement
+        Movement.Y = 0; Movement.X = 0;
 
         if (Grounded != baseGrounded)
         {
@@ -127,26 +160,26 @@ public class MovementComponent : Component
         foreach (int i in steps)
         {
             List<object> collision = Collision.CheckXCollision(i, parent);
-            Point tipOfGrappleGun = (Point)GrappleGun.GetAttributeVariable("GrappleGunComponent", "TipOfGun");
+            Point tipOfGrappleGun = (Point)parent.parent.GrappleGun.GetAttributeVariable("GrappleGunComponent", "TipOfGun");
             if (!(bool)collision[0])
             {
                 parent.position.X += i;
-                GrappleGun.position.X += i;
+                parent.parent.GrappleGun.position.X += i;
                 tipOfGrappleGun.X += i;
-                Climbing = false;
+                climbing = false;
             } else
             {
                 parent.position.X += (int)collision[1];
-                GrappleGun.position.X += (int)collision[1];
+                parent.parent.GrappleGun.position.X += (int)collision[1];
                 tipOfGrappleGun.X += (int)collision[1];
 
                 if ((string)collision[2] == "ladder")
                 {
-                    movement.Y -= 10;
-                    Climbing = true;
+                    Movement.Y -= 10;
+                    climbing = true;
                 } else
                 {
-                    Climbing = false;
+                    climbing = false;
                 }
                 break;
             }
@@ -175,16 +208,16 @@ public class MovementComponent : Component
         {
             // Add that step as long as it isn't colliding with anything
             List<object> collision = Collision.CheckYCollision(i, parent);
-            Point tipOfGrappleGun = (Point)GrappleGun.GetAttributeVariable("GrappleGunComponent", "TipOfGun");
+            Point tipOfGrappleGun = (Point)parent.parent.GrappleGun.GetAttributeVariable("GrappleGunComponent", "TipOfGun");
             if (!(bool)collision[0])
             {
                 parent.position.Y += i;
-                GrappleGun.position.Y += i;
+                parent.parent.GrappleGun.position.Y += i;
                 tipOfGrappleGun.Y += i;
             } else
             {
                 parent.position.Y += (int)collision[1];
-                GrappleGun.position.Y += (int)collision[1];
+                parent.parent.GrappleGun.position.Y += (int)collision[1];
                 tipOfGrappleGun.Y += (int)collision[1];
                 break;
             }

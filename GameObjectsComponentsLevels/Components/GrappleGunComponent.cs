@@ -30,12 +30,13 @@ public class GrappleGunComponent : Component
                 parent.Rotation = (float)Math.Atan2(dY, dX);
                 TipOfGun.X = (int)(parent.position.X + 104 * Math.Cos(parent.Rotation));
                 TipOfGun.Y = (int)(parent.position.Y + 104 * Math.Sin(parent.Rotation));
-                
-                parent.parent.CurrentActiveTarget = target;
+
+                parent.position = parent.parent.Player.position + new Point(16, 16);
                 break;
             }
 
             parent.parent.CurrentActiveTarget = null;
+            parent.parent.DistanceFromTarget = 0;
         }
     }
 }

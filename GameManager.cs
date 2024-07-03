@@ -63,8 +63,8 @@ public class GameManager : Game
     {
         base.Initialize();
 
-        _graphics.PreferredBackBufferWidth = 540;
-        _graphics.PreferredBackBufferHeight = 540;
+        _graphics.PreferredBackBufferWidth = 1080;
+        _graphics.PreferredBackBufferHeight = 1080;
         _graphics.ApplyChanges();
 
         //var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, 400, 400);
@@ -136,8 +136,7 @@ public class GameManager : Game
             {
                 if ((bool)obj.GetAttributeVariable("TargetComponent", "Active"))
                 {
-                    GameObject grappleGun = (GameObject)currentLevel.Player.GetAttributeVariable("MovementComponent", "GrappleGun");
-                    Point startPos = (Point)grappleGun.GetAttributeVariable("GrappleGunComponent", "TipOfGun");
+                    Point startPos = (Point)CurrentLevel.GrappleGun.GetAttributeVariable("GrappleGunComponent", "TipOfGun");
                     Point endPos = new(obj.position.X + 16, obj.position.Y + 16);
                     Functions.DrawLineBetween(_spriteBatch, startPos, endPos, 3, Color.White);
                 }
@@ -217,6 +216,11 @@ public class GameManager : Game
                         break;
                 }
             }
+        }
+
+        foreach (GameObject obj in currentLevel.GameObjects)
+        {
+            Debug.WriteLine(obj.position);
         }
     }
 

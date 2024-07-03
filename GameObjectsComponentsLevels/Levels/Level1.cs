@@ -6,6 +6,7 @@ using GrapplingGame;
 using Microsoft.Xna.Framework;
 
 using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 
 namespace GrapplingGame.GameObjectsComponentsLevels.Levels
 {
@@ -38,7 +39,7 @@ namespace GrapplingGame.GameObjectsComponentsLevels.Levels
                 origin = new Vector2(0, 16)
             };
 
-            player.SetAttributeVariable("MovementComponent", "GrappleGun", grappleGun);
+            GrappleGun = grappleGun;
         }
 
         public override void Update()
