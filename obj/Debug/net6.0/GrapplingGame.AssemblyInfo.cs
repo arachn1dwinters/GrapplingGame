@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GrapplingGame")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5d22f610a971334db1defad9de24602f1534fbe8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6f1c245c02e3ab5cd617f51326ddc550048c938d")]
 [assembly: System.Reflection.AssemblyProductAttribute("GrapplingGame")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GrapplingGame")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

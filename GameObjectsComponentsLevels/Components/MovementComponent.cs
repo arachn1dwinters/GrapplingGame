@@ -127,6 +127,7 @@ public class MovementComponent : Component
             CheckIfGrounded();
         }
 
+
         if (Velocity.Y < 0 || Movement.Y < 0)
         {
             Grounded = false;
