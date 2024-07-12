@@ -7,7 +7,7 @@ using System.IO;
 using System.Reflection;
 using System.Collections.Generic;
 using TiledCS;
- 
+
 using GrapplingGame.GameObjectsComponentsLevels.GameObjects;
 using GrapplingGame.GameObjectsComponentsLevels.Levels;
 using GrapplingGame.GameObjectsComponentsLevels.Components;
@@ -24,7 +24,7 @@ public class GameManager : Game
     public Texture2D playerSprite;
     public Texture2D grapplingGunSprite;
     public Texture2D targetActiveSprite;
-         
+
     // Fonts
     public SpriteFont pixelmix;
 
@@ -51,12 +51,18 @@ public class GameManager : Game
     private int _tilesetTilesHeight;
     public List<GameObject> tiles = new();
 
+    // Singleton stuff
+    public static GameManager Instance;
+
     public GameManager()
     {
         _graphics = new GraphicsDeviceManager(this);
 
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
+
+        // Singleton stuff
+        if (Instance == null) Instance = this;
     }
 
     protected override void Initialize()
@@ -107,7 +113,7 @@ public class GameManager : Game
                     a.Update(gameTime);
                 }
             }
-        }        
+        }
         currentLevel.Update();
     }
 
@@ -117,7 +123,7 @@ public class GameManager : Game
 
         //var transformMatrix = _camera.GetViewMatrix();
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-        
+
         // Render Gameobjects
         foreach (GameObject obj in currentLevel.GameObjects)
         {
@@ -126,7 +132,8 @@ public class GameManager : Game
                 if (obj.cropped == false)
                 {
                     _spriteBatch.Draw(obj.sprite, new Microsoft.Xna.Framework.Vector2(obj.position.X, obj.position.Y), null, Color.White, obj.Rotation, obj.origin, new Microsoft.Xna.Framework.Vector2(obj.sizeMultiplier.X, obj.sizeMultiplier.Y), SpriteEffects.None, 1);
-                } else
+                }
+                else
                 {
                     _spriteBatch.Draw(obj.sprite, new Rectangle(obj.rect.X, obj.rect.Y, obj.width * obj.sizeMultiplier.X, obj.height * obj.sizeMultiplier.Y), obj.cropRect, Color.White);
                 }
@@ -177,7 +184,7 @@ public class GameManager : Game
         // Amount of tiles on each column (up down)
         _tilesetTilesHeight = _tileset.TileCount / _tileset.Columns;
 
-        // Make tiles in the first layer into GameObjects
+        // Make tiles into GameObjects
         for (var i = 0; i < _map.Layers[0].data.Length; i++)
         {
             int gid = _map.Layers[0].data[i];
@@ -209,26 +216,28 @@ public class GameManager : Game
                     case 2:
                         newTile.type = "target";
                         newTile.AddAttribute("TargetComponent");
+                        newTile.SetAttributeVariable("TargetComponent", "TargetType", TARGETTYPE.swing);
                         currentLevel.targets.Add(newTile);
                         break;
                     case 3:
                         newTile.type = "ladder";
                         break;
+                    case 4:
+                        newTile.type = "target";
+                        newTile.AddAttribute("TargetComponent");
+                        newTile.SetAttributeVariable("TargetComponent", "TargetType", TARGETTYPE.pull);
+                        currentLevel.targets.Add(newTile);
+                        break;
                 }
             }
         }
-
-        foreach (GameObject obj in currentLevel.GameObjects)
-        {
-            Debug.WriteLine(obj.position);
-        }
     }
 
-   /*public void AddLevelUI(List<object> UIElements)
-    {
-        foreach (object UIObj in UIElements)
-        {
-            grid.Widgets.Add((Widget)UIObj);
-        }
-    }*/
+    /*public void AddLevelUI(List<object> UIElements)
+     {
+         foreach (object UIObj in UIElements)
+         {
+             grid.Widgets.Add((Widget)UIObj);
+         }
+     }*/
 }

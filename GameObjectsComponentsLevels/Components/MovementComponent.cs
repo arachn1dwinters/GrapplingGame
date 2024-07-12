@@ -1,4 +1,4 @@
-﻿/* Movement and collision system inspired by https://gamesfromearth.medium.com/a-simple-2d-physics-system-for-platform-games-f430718ea77f
+﻿/* Movement system inspired by https://gamesfromearth.medium.com/a-simple-2d-physics-system-for-platform-games-f430718ea77f
 * & https://maddythorson.medium.com/celeste-and-towerfall-physics-d24bd2ae0fc5
 * Thank you to Maddy Thornson and Games From Earth!
 */
@@ -54,25 +54,32 @@ public class MovementComponent : Component
             if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 Movement.X += -speed;
-            } else if (Keyboard.GetState().IsKeyDown(Keys.D))
+            }
+            else if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 Movement.X += speed;
-            } if (Keyboard.GetState().IsKeyDown(Keys.A))
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 Movement.X += -speed;
-            } else if (Keyboard.GetState().IsKeyDown(Keys.D))
+            }
+            else if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 Movement.X += speed;
-            } if (Keyboard.GetState().IsKeyDown(Keys.A))
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 Movement.X += -speed;
-            } else if (Keyboard.GetState().IsKeyDown(Keys.D))
+            }
+            else if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 Movement.X += speed;
-            } if (Keyboard.GetState().IsKeyDown(Keys.A))
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 Movement.X += -speed;
-            } else if (Keyboard.GetState().IsKeyDown(Keys.D))
+            }
+            else if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 Movement.X += speed;
             }
@@ -87,11 +94,11 @@ public class MovementComponent : Component
         }
 
         // Jump
-        if ((Keyboard.GetState().IsKeyDown(Keys.Space) || Keyboard.GetState().IsKeyDown(Keys.W)) /*&& Grounded*/)
+        if ((Keyboard.GetState().IsKeyDown(Keys.Space) || Keyboard.GetState().IsKeyDown(Keys.W)) && Grounded)
         {
             Velocity.Y = -10;
         }
-        
+
         // Momentum on the X axis
         if (Velocity.X != 0)
         {
@@ -126,6 +133,7 @@ public class MovementComponent : Component
             MoveY(Movement.Y);
             CheckIfGrounded();
         }
+
 
         if (Velocity.Y < 0 || Movement.Y < 0)
         {
@@ -167,7 +175,8 @@ public class MovementComponent : Component
                 parent.parent.GrappleGun.position.X += i;
                 tipOfGrappleGun.X += i;
                 climbing = false;
-            } else
+            }
+            else
             {
                 parent.position.X += (int)collision[1];
                 parent.parent.GrappleGun.position.X += (int)collision[1];
@@ -177,7 +186,8 @@ public class MovementComponent : Component
                 {
                     Movement.Y -= 10;
                     climbing = true;
-                } else
+                }
+                else
                 {
                     climbing = false;
                 }
@@ -214,7 +224,8 @@ public class MovementComponent : Component
                 parent.position.Y += i;
                 parent.parent.GrappleGun.position.Y += i;
                 tipOfGrappleGun.Y += i;
-            } else
+            }
+            else
             {
                 parent.position.Y += (int)collision[1];
                 parent.parent.GrappleGun.position.Y += (int)collision[1];
@@ -231,7 +242,9 @@ public class MovementComponent : Component
         if ((bool)collision[0])
         {
             Grounded = true;
-        } else {
+        }
+        else
+        {
             Grounded = false;
         }
     }

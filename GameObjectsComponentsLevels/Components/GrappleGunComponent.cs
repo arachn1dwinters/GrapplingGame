@@ -34,9 +34,6 @@ public class GrappleGunComponent : Component
                 parent.position = parent.parent.Player.position + new Point(16, 16);
                 break;
             }
-
-            parent.parent.CurrentActiveTarget = null;
-            parent.parent.DistanceFromTarget = 0;
         }
     }
 }
