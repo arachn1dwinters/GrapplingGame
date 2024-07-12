@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text.RegularExpressions;
 using GrapplingGame.GameObjectsComponentsLevels.GameObjects;
 using GrapplingGame.GameObjectsComponentsLevels.Helpers;
 using Microsoft.Xna.Framework;
@@ -11,22 +10,13 @@ namespace GrapplingGame.GameObjectsComponentsLevels.Components;
 public class GrapplePhysicsComponent : Component
 {
     public double Angle = 0;
-
-    public double AngleIncrement = 0.1;
-    double maxDistance = 1000;
-    double distanceFromTarget;
-    double angleIncrement;
-    double angleVelocity;
-    double scaleFactor;
-
-    public bool Clockwise = false;
-
-    public bool SetAngle;
-
     public Point MostRecentMovement;
 
+<<<<<<< HEAD
     double currentPullingVelocity = 1;
 
+=======
+>>>>>>> parent of 488c1a3 (Create new target type(pull))
     public GrapplePhysicsComponent(GameObject parent) : base(parent)
     {
         type = "GrapplePhysicsComponent";
@@ -38,6 +28,7 @@ public class GrapplePhysicsComponent : Component
 
         if (parent.parent.CurrentActiveTarget != null)
         {
+<<<<<<< HEAD
             TARGETTYPE targetType = (TARGETTYPE)parent.parent.CurrentActiveTarget.GetAttributeVariable("TargetComponent", "TargetType");
             if (targetType == TARGETTYPE.swing)
             {
@@ -135,5 +126,16 @@ public class GrapplePhysicsComponent : Component
     {
         int n = (int)Math.Floor(Math.PI / Math.Atan(distanceTraveled / (2 * parent.DistanceFromTarget)));
         return (2 * Math.PI)/n;
+=======
+            parent.SetAttributeVariable("MovementComponent", "Grappling", true);
+            // Move player in a circle around the active target.
+            Angle += 0.1;
+            Point newPlayerPosition = new((int)Math.Floor((Math.Cos(Angle) * parent.parent.DistanceFromTarget) + parent.parent.CurrentActiveTarget.position.X), (int)Math.Floor((Math.Sin(Angle) * parent.parent.DistanceFromTarget) + parent.parent.CurrentActiveTarget.position.Y));
+            Point actualMovement = newPlayerPosition - parent.position;
+            MostRecentMovement = new Point(actualMovement.X, actualMovement.Y);
+            parent.position = newPlayerPosition;
+            parent.parent.GrappleGun.position = newPlayerPosition + new Point(16, 16);
+        }
+>>>>>>> parent of 488c1a3 (Create new target type(pull))
     }
 }

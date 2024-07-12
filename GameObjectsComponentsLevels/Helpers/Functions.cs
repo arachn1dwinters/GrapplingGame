@@ -12,7 +12,6 @@ public static class Functions
         Point endPos,
         int thickness,
         Color color)
-        // Somebody else wrote this lol and i forgot who but thank you
         {
             // Create a texture as wide as the distance between two points and as high as
             // the desired thickness of the line.
@@ -42,9 +41,4 @@ public static class Functions
                 SpriteEffects.None,
                 1.0f);
         }
-    public static Point NormalizePoint(Point point)
-    {
-        double hypotenuse = Math.Sqrt(Math.Pow(point.X, 2) + Math.Pow(point.Y, 2));
-        return new Point((int)Math.Floor(point.X / hypotenuse), (int)Math.Floor(point.Y / hypotenuse));
-    }
 }

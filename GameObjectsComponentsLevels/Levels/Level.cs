@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+
+using GrapplingGame.GameObjectsComponentsLevels.Helpers;
+using GrapplingGame.GameObjectsComponentsLevels.GameObjects;
+using GrapplingGame;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework;
 using System.Diagnostics;
 using GrapplingGame.GameObjectsComponentsLevels.Components;
-using GrapplingGame.GameObjectsComponentsLevels.GameObjects;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 
 namespace GrapplingGame.GameObjectsComponentsLevels.Levels;
 public class Level
@@ -13,6 +16,7 @@ public class Level
     public List<GameObject> targets = new();
 
 	public virtual string tiledMap { get; set; }
+	public GameManager parent;
 	public int index;
 
     public GameObject Player;
@@ -26,6 +30,7 @@ public class Level
     public Level(GameManager parent, bool respawn)
 	{
 		GameObjects = new();
+		this.parent = parent;
 
 		if (!respawn)
 		{
@@ -38,37 +43,58 @@ public class Level
 	{
         MouseState mouseState = Mouse.GetState();
         Point mousePos = new(mouseState.X, mouseState.Y);
-
         if (!(bool)Player.GetAttributeVariable("MovementComponent", "Grounded"))
         {
-            if (mouseState.LeftButton == ButtonState.Pressed)
+            foreach (GameObject target in targets)
             {
-                foreach (GameObject target in targets)
+                if (target != CurrentActiveTarget)
                 {
-                    int distance = (int)Math.Floor(Math.Pow(mousePos.X - target.position.X, 2) + Math.Pow(mousePos.Y - target.position.Y, 2));
-                    if (distance < 700 && CurrentActiveTarget == null)
+                    if (mouseState.LeftButton == ButtonState.Pressed)
                     {
-                        SwitchTarget(target);
-                        Point playerVelocity = (Point)Player.GetAttributeVariable("MovementComponent", "Velocity");
-                        Player.SetAttributeVariable("GrapplePhysicsComponent", "AngleIncrement",
-                            Math.Min(GrapplePhysicsComponent.DistanceToIncrement(Math.Sqrt(Math.Pow(playerVelocity.X, 2) + Math.Pow(playerVelocity.Y, 2)), this), 0.1));
-                        bool clockwise = false;
-                        if ((playerVelocity.Y < 0 && Player.position.X < CurrentActiveTarget.position.X + CurrentActiveTarget.width / 2) || (playerVelocity.Y > 0 && Player.position.X > CurrentActiveTarget.position.X + CurrentActiveTarget.width / 2))
+                        int distance = (int)Math.Floor(Math.Pow(mousePos.X - target.position.X, 2) + Math.Pow(mousePos.Y - target.position.Y, 2));
+                        if (distance < 700)
                         {
-                            clockwise = true;
+                            DistanceFromTarget = (int)Math.Sqrt(Math.Pow(GrappleGun.position.X - target.position.X, 2) + Math.Pow(GrappleGun.position.Y - target.position.Y, 2));
+                            CurrentActiveTarget = target;
+                            SwitchTargets(target, CurrentActiveTarget);
+
+                            double rot;
+                            double deltaX = Player.position.X - target.position.X;
+                            double deltaY = Player.position.Y - target.position.Y;
+
+                            if (deltaX != 0)
+                            {
+                                rot = Math.Atan(deltaY / deltaX);
+                                if (deltaX < 0)
+                                {
+                                    rot += Math.PI;
+                                }
+                            } else
+                            {
+                                if (deltaY > 0)
+                                {
+                                    rot = Math.PI / 2;
+                                } else
+                                {
+                                    rot = -Math.PI / 2;
+                                }
+                            }
+
+                            Player.SetAttributeVariable("GrapplePhysicsComponent", "Angle", rot);
                         }
-                        Player.SetAttributeVariable("GrapplePhysicsComponent", "Clockwise", clockwise);
                     }
                 }
-            } else
+            }
+
+            if (mouseState.LeftButton == ButtonState.Released && CurrentActiveTarget != null)
             {
-                if (CurrentActiveTarget != null)
-                {
-                    Player.SetAttributeVariable("MovementComponent", "Grappling", false);
-                    Player.SetAttributeVariable("MovementComponent", "Velocity", Player.GetAttributeVariable("GrapplePhysicsComponent", "MostRecentMovement"));
-                    CurrentActiveTarget.SetAttributeVariable("TargetComponent", "Active", false);
-                    CurrentActiveTarget = null;
-                }
+                CurrentActiveTarget.SetAttributeVariable("TargetComponent", "Active", false);
+                CurrentActiveTarget = null;
+                Point playerVelocity = (Point)Player.GetAttributeVariable("MovementComponent", "Velocity");
+                playerVelocity.Y = 10;
+
+                Player.SetAttributeVariable("MovementComponent", "Grappling", false);
+                Player.SetAttributeVariable("MovementComponent", "Velocity", Player.GetAttributeVariable("GrapplePhysicsComponent", "MostRecentMovement"));
             }
         }
     }
@@ -76,11 +102,12 @@ public class Level
 
 	public void Remove()
 	{
-		GameManager.Instance.levels.Remove(this);
+		parent.levels.Remove(this);
 	}
 
-    void SwitchTarget(GameObject target)
+    void SwitchTargets(GameObject newTarget, GameObject previousTarget = null)
     {
+<<<<<<< HEAD
         DistanceFromTarget = (int)Math.Sqrt(Math.Pow(DistanceFromTargetPoint.X, 2) + Math.Pow(DistanceFromTargetPoint.Y, 2));
 
         double rot;
@@ -88,24 +115,19 @@ public class Level
         double deltaY = Player.position.Y - target.position.Y;
 
         if (deltaX != 0)
+=======
+        if (previousTarget != null)
+>>>>>>> parent of 488c1a3 (Create new target type(pull))
         {
-            rot = Math.Atan(deltaY / deltaX);
-            if (deltaX < 0)
-            {
-                rot += Math.PI;
-            }
-        }
-        else
+            previousTarget.SetAttributeVariable("TargetComponent", "Active", false);
+            DistanceFromTarget = (int)Math.Sqrt(Math.Pow(Player.position.X - newTarget.position.X, 2) + Math.Pow(Player.position.Y - newTarget.position.Y, 2));
+
+            CurrentActiveTarget = newTarget;
+        } else
         {
-            if (deltaY > 0)
-            {
-                rot = Math.PI / 2;
-            }
-            else
-            {
-                rot = -Math.PI / 2;
-            }
+            CurrentActiveTarget = newTarget;
         }
+<<<<<<< HEAD
 
         Player.SetAttributeVariable("GrapplePhysicsComponent", "Angle", rot);
 
@@ -114,5 +136,8 @@ public class Level
         Player.SetAttributeVariable("MovementComponent", "Grappling", true);
 
         CurrentTargetPosition = CurrentActiveTarget.position + new Point(16, 16);
+=======
+        newTarget.SetAttributeVariable("TargetComponent", "Active", true);
+>>>>>>> parent of 488c1a3 (Create new target type(pull))
     }
 }

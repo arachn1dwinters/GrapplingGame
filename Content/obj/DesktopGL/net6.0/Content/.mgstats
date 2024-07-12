@@ -2,4 +2,8 @@ Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Siz
 "C:/Users/Isaac Winters/Desktop/Projects/GrapplingGame/Content/grappling_gun.png","C:/Users/Isaac Winters/Desktop/Projects/GrapplingGame/Content/bin/DesktopGL/Content/grappling_gun.xnb","TextureProcessor","Texture2DContent",601,13397,0.0693235
 "C:/Users/Isaac Winters/Desktop/Projects/GrapplingGame/Content/player_sprite.png","C:/Users/Isaac Winters/Desktop/Projects/GrapplingGame/Content/bin/DesktopGL/Content/Player.xnb","TextureProcessor","Texture2DContent",190,4181,0.0017661
 "C:/Users/Isaac Winters/Desktop/Projects/GrapplingGame/Content/TargetActive.png","C:/Users/Isaac Winters/Desktop/Projects/GrapplingGame/Content/bin/DesktopGL/Content/TargetActive.xnb","TextureProcessor","Texture2DContent",302,4181,0.001308
+<<<<<<< HEAD
 "C:/Users/Isaac Winters/Desktop/Projects/GrapplingGame/Content/tilemaps/tileset.png","C:/Users/Isaac Winters/Desktop/Projects/GrapplingGame/Content/bin/DesktopGL/Content/tilemaps/tileset.xnb","TextureProcessor","Texture2DContent",573,65621,0.0806949
+=======
+"C:/Users/Isaac Winters/Desktop/Projects/GrapplingGame/Content/tilemaps/tileset.png","C:/Users/Isaac Winters/Desktop/Projects/GrapplingGame/Content/bin/DesktopGL/Content/tilemaps/tileset.xnb","TextureProcessor","Texture2DContent",434,65621,0.0043368
+>>>>>>> parent of 488c1a3 (Create new target type(pull))

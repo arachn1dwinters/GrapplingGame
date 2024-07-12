@@ -7,8 +7,6 @@ using Microsoft.Xna.Framework.Graphics;
 using GrapplingGame.GameObjectsComponentsLevels.Components;
 using GrapplingGame.GameObjectsComponentsLevels.Helpers;
 using GrapplingGame.GameObjectsComponentsLevels.Levels;
-using System.Diagnostics;
-using GrapplingGame;
 
 namespace GrapplingGame.GameObjectsComponentsLevels.GameObjects;
 public class GameObject
@@ -73,7 +71,7 @@ public class GameObject
         // Check if its a tile and add it to the parents list of tiles
         if (type == "tile")
         {
-            GameManager.Instance.tiles.Add(this);
+            parent.parent.tiles.Add(this);
         }
     }
 
@@ -183,7 +181,7 @@ public class GameObject
         // Check if its a tile and add it to the parents list of tiles
         if (type == "tile")
         {
-            GameManager.Instance.tiles.Add(this);
+            parent.parent.tiles.Add(this);
         }
     }
 
@@ -202,7 +200,7 @@ public class GameObject
             {
                 if (attribute.type == newAttribute.type)
                 {
-                    Debug.WriteLine("You can't add an attribute that has already been added to this object!");
+                    Console.WriteLine("You can't add an attribute that has already been added to this object!");
                     break;
                 }
 
@@ -212,7 +210,7 @@ public class GameObject
             attributes.Add(newAttribute);
         }
         catch {
-            Debug.WriteLine($"We couldn't find the component {componentName}.");
+            Console.WriteLine($"We couldn't find the component {componentName}.");
         }
     }
 
@@ -232,35 +230,11 @@ public class GameObject
                 }
                 catch
                 {
-                    Debug.WriteLine("We couldn't find the method " + method + " in the " + attributeType + " type.");
+                    Console.WriteLine("We couldn't find the method " + method + " in the " + attributeType + " type.");
                 }
                 break;
             }
         }
-    }
-
-    // Call a specific object method of an attribute
-    public object CallAttributeObjectMethod(string attributeType, string method, object[] parameters = null)
-    {
-        // Loop through all attributes
-        foreach (Component attribute in attributes)
-        {
-            // Check if the looped attribute matches the attribute passed in the parameter. Remember, there can be only one of each type of attribute per GameObject.
-            if (attribute.type == attributeType)
-            {
-                // Invoke the method that the user passed
-                try
-                {
-                    return attribute.GetType().GetMethod(method).Invoke(attribute, parameters);
-                }
-                catch
-                {
-                    Debug.WriteLine("We couldn't find the method " + method + " in the " + attributeType + " type.");
-                }
-                break;
-            }
-        }
-        return null;
     }
 
     // Edit a variable of an attribute
@@ -279,7 +253,7 @@ public class GameObject
                 }
                 catch
                 {
-                    Debug.WriteLine("We couldn't find the variable " + variable + " in the " + attributeType + " type.");
+                    Console.WriteLine("We couldn't find the variable " + variable + " in the " + attributeType + " type.");
                 }
                 break;
             }
@@ -298,7 +272,7 @@ public class GameObject
                 }
                 catch
                 {
-                    Debug.WriteLine("We couldn't find the variable " + variable + " in the " + attributeType + " type.");
+                    Console.WriteLine("We couldn't find the variable " + variable + " in the " + attributeType + " type.");
                 }
             }
         }

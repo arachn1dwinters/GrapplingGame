@@ -9,9 +9,3 @@ public struct GLOBALS
 	public static int FPS = 15;
 	public static double TIMEBETWEENFRAMES = 0.1;
 }
-
-public enum TARGETTYPE
-{
-	swing,
-	pull
-}

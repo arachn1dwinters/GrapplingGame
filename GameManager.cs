@@ -51,18 +51,12 @@ public class GameManager : Game
     private int _tilesetTilesHeight;
     public List<GameObject> tiles = new();
 
-    // Singleton stuff
-    public static GameManager Instance;
-
     public GameManager()
     {
         _graphics = new GraphicsDeviceManager(this);
 
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
-
-        // Singleton stuff
-        if (Instance == null) Instance = this;
     }
 
     protected override void Initialize()
@@ -215,20 +209,18 @@ public class GameManager : Game
                     case 2:
                         newTile.type = "target";
                         newTile.AddAttribute("TargetComponent");
-                        newTile.SetAttributeVariable("TargetComponent", "TargetType", TARGETTYPE.swing);
                         currentLevel.targets.Add(newTile);
                         break;
                     case 3:
                         newTile.type = "ladder";
                         break;
-                    case 4:
-                        newTile.type = "target";
-                        newTile.AddAttribute("TargetComponent");
-                        newTile.SetAttributeVariable("TargetComponent", "TargetType", TARGETTYPE.pull);
-                        currentLevel.targets.Add(newTile);
-                        break;
                 }
             }
+        }
+
+        foreach (GameObject obj in currentLevel.GameObjects)
+        {
+            Debug.WriteLine(obj.position);
         }
     }
 
