@@ -19,7 +19,9 @@ public class Level
     public GameObject GrappleGun;
 
     public GameObject CurrentActiveTarget;
+    public Point CurrentTargetPosition;
     public int DistanceFromTarget;
+    public Point DistanceFromTargetPoint;
 
     public Level(GameManager parent, bool respawn)
 	{
@@ -79,8 +81,7 @@ public class Level
 
     void SwitchTarget(GameObject target)
     {
-        Point targetDistancePoint = GrappleGun.position - target.position;
-        DistanceFromTarget = (int)Math.Sqrt(Math.Pow(targetDistancePoint.X, 2) + Math.Pow(targetDistancePoint.Y, 2));
+        DistanceFromTarget = (int)Math.Sqrt(Math.Pow(DistanceFromTargetPoint.X, 2) + Math.Pow(DistanceFromTargetPoint.Y, 2));
 
         double rot;
         double deltaX = Player.position.X - target.position.X;
@@ -111,5 +112,7 @@ public class Level
         target.SetAttributeVariable("TargetComponent", "Active", true);
         CurrentActiveTarget = target;
         Player.SetAttributeVariable("MovementComponent", "Grappling", true);
+
+        CurrentTargetPosition = CurrentActiveTarget.position + new Point(16, 16);
     }
 }

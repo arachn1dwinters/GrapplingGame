@@ -183,7 +183,7 @@ public class GameManager : Game
         // Amount of tiles on each column (up down)
         _tilesetTilesHeight = _tileset.TileCount / _tileset.Columns;
 
-        // Make tiles into GameObjects
+        // Make tiles in the first layer into GameObjects
         for (var i = 0; i < _map.Layers[0].data.Length; i++)
         {
             int gid = _map.Layers[0].data[i];

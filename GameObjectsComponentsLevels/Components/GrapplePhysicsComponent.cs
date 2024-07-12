@@ -25,7 +25,7 @@ public class GrapplePhysicsComponent : Component
 
     public Point MostRecentMovement;
 
-    double currentPullingVelocity = 0;
+    double currentPullingVelocity = 1;
 
     public GrapplePhysicsComponent(GameObject parent) : base(parent)
     {
@@ -76,17 +76,17 @@ public class GrapplePhysicsComponent : Component
                 }
             } else if (targetType == TARGETTYPE.pull)
             {
-                Point targetPosition = parent.parent.CurrentActiveTarget.position;
-                Point gunPosition = parent.parent.GrappleGun.position;
+                Point targetPosition = parent.parent.CurrentTargetPosition;
+                Point gunPosition = (Point)parent.parent.GrappleGun.GetAttributeVariable("GrappleGunComponent", "TipOfGun");
 
                 double distanceToTarget = Math.Sqrt(Math.Pow(targetPosition.X - gunPosition.X, 2) + Math.Pow(targetPosition.Y - gunPosition.Y, 2));
 
-                // Normalize the direction vector
                 double directionX = (targetPosition.X - gunPosition.X) / distanceToTarget;
                 double directionY = (targetPosition.Y - gunPosition.Y) / distanceToTarget;
 
-                // Define the pulling speed (the rate at which the player moves towards the target)
-                currentPullingVelocity += 1;
+                if (currentPullingVelocity > 0) {
+                    currentPullingVelocity += 1;
+                }
 
                 // Move the player towards the target
                 int newX = (int)Math.Floor(gunPosition.X + directionX * currentPullingVelocity);
@@ -98,11 +98,10 @@ public class GrapplePhysicsComponent : Component
                 parent.position = newGunPosition - new Point(16, 16);
                 parent.parent.GrappleGun.position = newGunPosition;
 
-                // Optionally, stop the player when they reach the target
-                if (distanceToTarget <= currentPullingVelocity)
+                // Stop the player
+                if (distanceToTarget <= 120)
                 {
-                    parent.position = targetPosition - new Point(16, 16);
-                    parent.parent.GrappleGun.position = targetPosition;
+                    currentPullingVelocity = 0;
                 }
             }
         }
@@ -113,7 +112,7 @@ public class GrapplePhysicsComponent : Component
                 SetAngle = false;
             }
 
-            currentPullingVelocity = 0;
+            currentPullingVelocity = 1;
         }
 
         if (Angle > 2 * Math.PI)

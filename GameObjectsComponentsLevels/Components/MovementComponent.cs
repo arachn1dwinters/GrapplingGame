@@ -1,4 +1,4 @@
-﻿/* Movement system inspired by https://gamesfromearth.medium.com/a-simple-2d-physics-system-for-platform-games-f430718ea77f
+﻿/* Movement and collision system inspired by https://gamesfromearth.medium.com/a-simple-2d-physics-system-for-platform-games-f430718ea77f
 * & https://maddythorson.medium.com/celeste-and-towerfall-physics-d24bd2ae0fc5
 * Thank you to Maddy Thornson and Games From Earth!
 */
@@ -87,7 +87,7 @@ public class MovementComponent : Component
         }
 
         // Jump
-        if ((Keyboard.GetState().IsKeyDown(Keys.Space) || Keyboard.GetState().IsKeyDown(Keys.W)) && Grounded)
+        if ((Keyboard.GetState().IsKeyDown(Keys.Space) || Keyboard.GetState().IsKeyDown(Keys.W)) /*&& Grounded*/)
         {
             Velocity.Y = -10;
         }
