@@ -23,14 +23,14 @@ namespace GrapplingGame.GameObjectsComponentsLevels.Levels
             tiledMap = "Level1.tmx";
             GameManager.Instance.CreateMap(tiledMap);
 
-            player = new(GameManager.Instance.playerSprite, new Point(50, 50), new Point(1, 1), "player", this, new()
+            player = new(GameManager.Instance.playerSprite, PlayerSpawn, new Point(1, 1), "player", this, new()
             {
                 "MovementComponent",
                 "GrapplePhysicsComponent"
             });
             Player = player;
 
-            grappleGun = new(GameManager.Instance.grapplingGunSprite, new Point(66, 66), new Point(1, 1), "Grappling Gun", this, new()
+            grappleGun = new(GameManager.Instance.grapplingGunSprite, PlayerSpawn + new Point(16, 16), new Point(1, 1), "Grappling Gun", this, new()
             {
                 "GrappleGunComponent"
             })

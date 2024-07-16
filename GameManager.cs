@@ -45,6 +45,7 @@ public class GameManager : Game
     private TiledMap _map;
     private TiledTileset _tileset;
     private Texture2D _tilesetTexture;
+    private Texture2D _specialTilesetTexture;
     private int _tileWidth;
     private int _tileHeight;
     private int _tilesetTilesWide;
@@ -69,8 +70,8 @@ public class GameManager : Game
     {
         base.Initialize();
 
-        _graphics.PreferredBackBufferWidth = 1080;
-        _graphics.PreferredBackBufferHeight = 1080;
+        _graphics.PreferredBackBufferWidth = 1600;
+        _graphics.PreferredBackBufferHeight = 900;
         _graphics.ApplyChanges();
 
         //var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, 400, 400);
@@ -174,7 +175,14 @@ public class GameManager : Game
         _map = new TiledMap(path + "/" + Content.RootDirectory + "/tilemaps/" + tiledLevel);
         _tileset = new TiledTileset(path + "/" + Content.RootDirectory + "/tilemaps/Tileset.tsx");
 
-        _tilesetTexture = Content.Load<Texture2D>("tilemaps/tileset");
+        //_specialTilesetTexture = Content.Load<Texture2D>("special_tileset");
+        FileStream specialFileStream = new FileStream(path + "/" + Content.RootDirectory + "/tilemaps/special_tileset.png", FileMode.Open);
+        Texture2D specialTilesetTexture = Texture2D.FromStream(GraphicsDevice, specialFileStream);
+        specialFileStream.Dispose();
+
+        FileStream fileStream = new FileStream(path + "/" + Content.RootDirectory + "/tilemaps/tileset.png", FileMode.Open);
+        Texture2D tilesetTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+        fileStream.Dispose();
 
         _tileWidth = _tileset.TileWidth;
         _tileHeight = _tileset.TileHeight;
@@ -185,9 +193,11 @@ public class GameManager : Game
         _tilesetTilesHeight = _tileset.TileCount / _tileset.Columns;
 
         // Make tiles into GameObjects
-        for (var i = 0; i < _map.Layers[0].data.Length; i++)
+        /* Going through the secend map layer here because of how I do automapping -- there are two layers in the .tmx file, one of which determines where the tiles go and one of which
+         * (the one that we will be rendering) applies the rules*/
+        for (var i = 0; i < _map.Layers[1].data.Length; i++)
         {
-            int gid = _map.Layers[0].data[i];
+            int gid = _map.Layers[1].data[i];
 
             // Empty tile, do nothing
             if (gid == 0)
@@ -208,8 +218,10 @@ public class GameManager : Game
 
                 Rectangle tilesetRec = new(_tileWidth * column, _tileHeight * row, _tileWidth, _tileHeight);
 
-                GameObject newTile = new(_tilesetTexture, tilesetRec, new Point((int)x, (int)y), new Point(1, 1), "tile", currentLevel);
+                GameObject newTile = new(tilesetTexture, tilesetRec, new Point((int)x, (int)y), new Point(1, 1), "tile", currentLevel);
 
+                /*
+                Put this back in when we add the special tiles layer
                 switch (gid)
                 {
                     // Add special tile code here
@@ -228,16 +240,45 @@ public class GameManager : Game
                         newTile.SetAttributeVariable("TargetComponent", "TargetType", TARGETTYPE.pull);
                         currentLevel.targets.Add(newTile);
                         break;
+                }*/
+            }
+        }
+
+        // Now, we loop through the special tiles layer.
+        for (var i = 0; i < _map.Layers[2].data.Length; i++)
+        {
+            int gid = _map.Layers[2].data[i];
+
+            // Empty tile, do nothing
+            if (gid == 0)
+            {
+
+            }
+            else
+            {
+                int tileFrame = gid - 1;
+
+                var tile = _map.GetTiledTile(_map.Tilesets[1], _tileset, gid);
+
+                int column = tileFrame % _tilesetTilesWide;
+                int row = (int)Math.Floor((double)tileFrame / (double)_tilesetTilesWide);
+
+                int x = (i % _map.Width) * _map.TileWidth;
+                int y = (i / _map.Width) * _map.TileHeight;
+
+                Rectangle tilesetRec = new(_tileWidth * column, _tileHeight * row, _tileWidth, _tileHeight);
+
+                GameObject newTile = new(specialTilesetTexture, tilesetRec, new Point((int)x, (int)y), new Point(1, 1), "tile", currentLevel);
+
+                switch (gid)
+                {
+                    // Add special tile code here
+                    case 1:
+                        currentLevel.PlayerSpawn = new Point(x, y);
+                        newTile.Remove();
+                        break;
                 }
             }
         }
     }
-
-    /*public void AddLevelUI(List<object> UIElements)
-     {
-         foreach (object UIObj in UIElements)
-         {
-             grid.Widgets.Add((Widget)UIObj);
-         }
-     }*/
 }

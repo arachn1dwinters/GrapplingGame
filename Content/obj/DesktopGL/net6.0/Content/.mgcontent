@@ -7,12 +7,10 @@
     <File>C:/Users/Isaac Winters/Desktop/Projects/GrapplingGame/Content/grappling_gun.png</File>
     <File>C:/Users/Isaac Winters/Desktop/Projects/GrapplingGame/Content/player_sprite.png</File>
     <File>C:/Users/Isaac Winters/Desktop/Projects/GrapplingGame/Content/TargetActive.png</File>
-    <File>C:/Users/Isaac Winters/Desktop/Projects/GrapplingGame/Content/tilemaps/tileset.png</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />
     <File>Player.png</File>
-    <File xsi:nil="true" />
     <File xsi:nil="true" />
   </DestFiles>
 </SourceFileCollection>

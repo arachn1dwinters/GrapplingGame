@@ -17,6 +17,7 @@ public class Level
     public int index;
 
     public GameObject Player;
+    public Point PlayerSpawn;
     public GameObject GrappleGun;
 
     public GameObject CurrentActiveTarget;

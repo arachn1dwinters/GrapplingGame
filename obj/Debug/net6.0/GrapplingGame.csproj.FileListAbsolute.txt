@@ -32,7 +32,6 @@
 C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\bin\Debug\net6.0\Content\grappling_gun.xnb
 C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\bin\Debug\net6.0\Content\Player.xnb
 C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\bin\Debug\net6.0\Content\TargetActive.xnb
-C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\bin\Debug\net6.0\Content\tilemaps\tileset.xnb
 C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\bin\Debug\net6.0\GrapplingGame.exe
 C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\bin\Debug\net6.0\GrapplingGame.deps.json
 C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\bin\Debug\net6.0\GrapplingGame.runtimeconfig.json
@@ -60,3 +59,5 @@ C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\obj\Debug\net6.0\refint\Gr
 C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\obj\Debug\net6.0\GrapplingGame.pdb
 C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\obj\Debug\net6.0\GrapplingGame.genruntimeconfig.cache
 C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\obj\Debug\net6.0\ref\GrapplingGame.dll
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\bin\Debug\net6.0\Content\tileset.xnb
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\bin\Debug\net6.0\Content\special_tileset.xnb

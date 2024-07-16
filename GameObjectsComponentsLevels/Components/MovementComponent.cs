@@ -29,6 +29,7 @@ public class MovementComponent : Component
     public bool Grounded;
     bool climbing;
     public bool Grappling;
+    public bool Pulling;
 
     public override string type { get; set; }
 
@@ -121,6 +122,7 @@ public class MovementComponent : Component
         Movement.Y += Velocity.Y;
         Movement.X += Velocity.X;
 
+
         // Final Movements
         if (Movement.X != 0)
         {
@@ -173,7 +175,7 @@ public class MovementComponent : Component
             {
                 parent.position.X += i;
                 parent.parent.GrappleGun.position.X += i;
-                tipOfGrappleGun.X += i;
+                parent.parent.GrappleGun.SetAttributeVariable("GrappleGunComponent", "TipOfGun", new Point(tipOfGrappleGun.X + i, tipOfGrappleGun.Y));
                 climbing = false;
             }
             else
@@ -181,6 +183,7 @@ public class MovementComponent : Component
                 parent.position.X += (int)collision[1];
                 parent.parent.GrappleGun.position.X += (int)collision[1];
                 tipOfGrappleGun.X += (int)collision[1];
+                parent.parent.GrappleGun.SetAttributeVariable("GrappleGunComponent", "TipOfGun", new Point(tipOfGrappleGun.X + (int)collision[1], tipOfGrappleGun.Y));
 
                 if ((string)collision[2] == "ladder")
                 {
@@ -223,13 +226,14 @@ public class MovementComponent : Component
             {
                 parent.position.Y += i;
                 parent.parent.GrappleGun.position.Y += i;
-                tipOfGrappleGun.Y += i;
+                parent.parent.GrappleGun.SetAttributeVariable("GrappleGunComponent", "TipOfGun", new Point(tipOfGrappleGun.X, tipOfGrappleGun.Y + i));
             }
             else
             {
                 parent.position.Y += (int)collision[1];
                 parent.parent.GrappleGun.position.Y += (int)collision[1];
                 tipOfGrappleGun.Y += (int)collision[1];
+                parent.parent.GrappleGun.SetAttributeVariable("GrappleGunComponent", "TipOfGun", new Point(tipOfGrappleGun.X, tipOfGrappleGun.Y + (int)collision[1]));
                 break;
             }
         }
