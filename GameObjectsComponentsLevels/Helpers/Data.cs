@@ -15,3 +15,12 @@ public enum TARGETTYPE
     swing,
     pull
 }
+
+public enum CAMERAMODE
+{
+    playerCenter, // Note: the player doesn't actually go this center in this mode until they have passed the middle of the screen
+    playerLeft,
+    playerRight,
+    playerBottom,
+    playerTop
+}

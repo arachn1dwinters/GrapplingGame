@@ -9,6 +9,7 @@
       "GrapplingGame/1.0.0": {
         "dependencies": {
           "MonoGame.Content.Builder.Task": "3.8.1.303",
+          "MonoGame.Extended": "4.0.0",
           "MonoGame.Framework.DesktopGL": "3.8.1.303",
           "TiledCS": "3.3.3"
         },
@@ -17,6 +18,14 @@
         }
       },
       "MonoGame.Content.Builder.Task/3.8.1.303": {},
+      "MonoGame.Extended/4.0.0": {
+        "runtime": {
+          "lib/net6.0/MonoGame.Extended.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.0.0.0"
+          }
+        }
+      },
       "MonoGame.Framework.DesktopGL/3.8.1.303": {
         "runtime": {
           "lib/net6.0/MonoGame.Framework.dll": {
@@ -89,6 +98,13 @@
       "sha512": "sha512-9Ilzzje62LhWElbPNEl7vh7XsRSbze+lvCJdZtTZUGu48FRgvYN6THURwIB9PN98EI33/Wnf6iuShNUtD7hL4Q==",
       "path": "monogame.content.builder.task/3.8.1.303",
       "hashPath": "monogame.content.builder.task.3.8.1.303.nupkg.sha512"
+    },
+    "MonoGame.Extended/4.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-d6lNAv30Jq19/6akwRfVPTlJnUktCFD5DSpzyC4LZr3hVtlKouzCzz0C351HgFm8hLLNpW4U7qOuboyEYpZgAA==",
+      "path": "monogame.extended/4.0.0",
+      "hashPath": "monogame.extended.4.0.0.nupkg.sha512"
     },
     "MonoGame.Framework.DesktopGL/3.8.1.303": {
       "type": "package",

@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using GrapplingGame.GameObjectsComponentsLevels.Components;
@@ -23,6 +22,8 @@ public class Level
     public GameObject CurrentActiveTarget;
     public int DistanceFromTarget;
 
+    public Point levelOrigin;
+
     public Level(GameManager parent, bool respawn)
     {
         GameObjects = new();
@@ -37,7 +38,7 @@ public class Level
     public virtual void Update()
     {
         MouseState mouseState = Mouse.GetState();
-        Point mousePos = new(mouseState.X, mouseState.Y);
+        Vector2 mousePos = GameManager.Instance.OrthographicCamera.ScreenToWorld(new Vector2(mouseState.X, mouseState.Y));
 
         if (!(bool)Player.GetAttributeVariable("MovementComponent", "Grounded"))
         {
@@ -50,14 +51,19 @@ public class Level
                     {
                         SwitchTarget(target);
                         Point playerVelocity = (Point)Player.GetAttributeVariable("MovementComponent", "Velocity");
+                        Point playerMovement = (Point)Player.GetAttributeVariable("MovementComponent", "Movement");
+                        Point actualPlayerVelocity = playerVelocity + playerMovement;
                         Player.SetAttributeVariable("GrapplePhysicsComponent", "AngleIncrement",
-                            Math.Min(GrapplePhysicsComponent.DistanceToIncrement(Math.Sqrt(Math.Pow(playerVelocity.X, 2) + Math.Pow(playerVelocity.Y, 2)), this), 0.1));
+                            Math.Min(GrapplePhysicsComponent.DistanceToIncrement(Math.Sqrt(Math.Pow(actualPlayerVelocity.X, 2) + Math.Pow(actualPlayerVelocity.Y, 2)), this), 0.1));
+
                         bool clockwise = false;
                         if ((playerVelocity.Y < 0 && Player.position.X < CurrentActiveTarget.position.X + CurrentActiveTarget.width / 2) || (playerVelocity.Y > 0 && Player.position.X > CurrentActiveTarget.position.X + CurrentActiveTarget.width / 2))
                         {
                             clockwise = true;
                         }
                         Player.SetAttributeVariable("GrapplePhysicsComponent", "Clockwise", clockwise);
+
+                        Player.SetAttributeVariable("MovementComponent", "Velocity", new Point(0, 0));
                     }
                 }
             }

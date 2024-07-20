@@ -96,7 +96,7 @@ public class GrapplePhysicsComponent : Component
                 Point playerMovement = (Point)parent.GetAttributeVariable("MovementComponent", "Movement");
                 parent.SetAttributeVariable("MovementComponent", "Movement", playerMovement + actualMovement);
 
-                if (distanceToTarget <= 104)
+                if (distanceToTarget <= 150)
                 {
                     currentPullingVelocity = 0;
                 }

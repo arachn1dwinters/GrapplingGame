@@ -16,7 +16,7 @@ namespace GrapplingGame.GameObjectsComponentsLevels.Components;
 public class MovementComponent : Component
 {
     // Movement and speed
-    readonly int speed = 2;
+    readonly int speed = 10;
     public Point Movement = new();
     public bool rightSideUp = true;
 
@@ -25,7 +25,8 @@ public class MovementComponent : Component
 
     // Physics and Velocity
     public Point Velocity;
-    int gravity;
+    public int Gravity = 10;
+    public int BaseGravity = 10;
     public bool Grounded;
     bool climbing;
     public bool Grappling;
@@ -60,38 +61,28 @@ public class MovementComponent : Component
             {
                 Movement.X += speed;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
+        }
+
+        // Gravity
+        if (!Grounded && !climbing && !Grappling)
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.S))
             {
-                Movement.X += -speed;
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.D))
+                Gravity = BaseGravity + 5;
+            } else
             {
-                Movement.X += speed;
+                Gravity = BaseGravity;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
+
+            if (Velocity.Y < Gravity)
             {
-                Movement.X += -speed;
+                Velocity.Y += 1;
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.D))
-            {
-                Movement.X += speed;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
-            {
-                Movement.X += -speed;
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.D))
-            {
-                Movement.X += speed;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
-            {
-                Movement.X += -speed;
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.D))
-            {
-                Movement.X += speed;
-            }
+        }
+
+        if (Grounded)
+        {
+            Velocity.Y = 0;
         }
 
         // Jump
@@ -104,12 +95,6 @@ public class MovementComponent : Component
         if (Velocity.X != 0)
         {
             Velocity.X = Velocity.X -= 1;
-        }
-
-        // Gravity
-        if (!Grounded && !climbing && !Grappling && Velocity.Y < 10)
-        {
-            Velocity.Y += 1;
         }
 
         if (Velocity.Y > 0)
@@ -141,6 +126,9 @@ public class MovementComponent : Component
         {
             Grounded = false;
         }
+
+        // Move camera
+        //Camera.Instance.TargetCenter = parent.position;
 
         // Reset Movement
         Movement.Y = 0; Movement.X = 0;

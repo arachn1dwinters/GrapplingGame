@@ -12,7 +12,9 @@ using GrapplingGame.GameObjectsComponentsLevels.GameObjects;
 using GrapplingGame.GameObjectsComponentsLevels.Levels;
 using GrapplingGame.GameObjectsComponentsLevels.Components;
 using GrapplingGame.GameObjectsComponentsLevels.Helpers;
-using System.Diagnostics;
+
+using MonoGame.Extended;
+using MonoGame.Extended.ViewportAdapters;
 
 namespace GrapplingGame;
 public class GameManager : Game
@@ -26,10 +28,11 @@ public class GameManager : Game
     public Texture2D targetActiveSprite;
 
     // Fonts
-    public SpriteFont pixelmix;
+    public SpriteFont pixelify;
 
     // Levels
     Level currentLevel;
+
     public Level CurrentLevel
     {
         get { return currentLevel; }
@@ -54,6 +57,12 @@ public class GameManager : Game
 
     // Singleton stuff
     public static GameManager Instance;
+    public Camera Camera;
+
+    // Camera
+    public OrthographicCamera OrthographicCamera;
+    public float HalfScreenWidth;
+    public float HalfScreenHeight;
 
     public GameManager()
     {
@@ -63,7 +72,8 @@ public class GameManager : Game
         IsMouseVisible = true;
 
         // Singleton stuff
-        if (Instance == null) Instance = this;
+        Instance ??= this;
+        Camera = new();
     }
 
     protected override void Initialize()
@@ -74,7 +84,10 @@ public class GameManager : Game
         _graphics.PreferredBackBufferHeight = 900;
         _graphics.ApplyChanges();
 
-        //var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, 400, 400);
+        var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, 1600, 900);
+        OrthographicCamera = new OrthographicCamera(viewportAdapter);
+        HalfScreenWidth = 800;
+        HalfScreenHeight = 450;
 
         Level1 level1 = new(this, false);
         CurrentLevel = level1;
@@ -87,6 +100,7 @@ public class GameManager : Game
         playerSprite = this.Content.Load<Texture2D>("Player");
         grapplingGunSprite = Content.Load<Texture2D>("grappling_gun");
         targetActiveSprite = Content.Load<Texture2D>("TargetActive");
+        pixelify = Content.Load<SpriteFont>("Pixelify");
 
         // Add it to the desktop
         /*_desktop = new Desktop();
@@ -99,6 +113,8 @@ public class GameManager : Game
             Exit();
 
         base.Update(gameTime);
+
+        Camera.Instance.Update(gameTime);
 
         foreach (GameObject obj in currentLevel.GameObjects.ToArray())
         {
@@ -122,8 +138,8 @@ public class GameManager : Game
     {
         GraphicsDevice.Clear(Color.Black);
 
-        //var transformMatrix = _camera.GetViewMatrix();
-        _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+        var transformMatrix = OrthographicCamera.GetViewMatrix();
+        _spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix : transformMatrix);
 
         // Render Gameobjects
         foreach (GameObject obj in currentLevel.GameObjects)
@@ -148,6 +164,12 @@ public class GameManager : Game
                     Point endPos = new(obj.position.X + 16, obj.position.Y + 16);
                     Functions.DrawLineBetween(_spriteBatch, startPos, endPos, 3, Color.White);
                 }
+            }
+
+            if (currentLevel.Player != null)
+            {
+                Point currentPlayerVelocity = (Point)currentLevel.Player.GetAttributeVariable("MovementComponent", "Velocity");
+                _spriteBatch.DrawString(pixelify, $"{currentLevel.Player.position.X}, {currentLevel.Player.position.Y}", OrthographicCamera.ScreenToWorld(new Vector2(0, 0)), Color.White);
             }
         }
 
@@ -199,12 +221,7 @@ public class GameManager : Game
         {
             int gid = _map.Layers[1].data[i];
 
-            // Empty tile, do nothing
-            if (gid == 0)
-            {
-
-            }
-            else
+            if (gid != 0)
             {
                 int tileFrame = gid - 1;
 
@@ -219,46 +236,20 @@ public class GameManager : Game
                 Rectangle tilesetRec = new(_tileWidth * column, _tileHeight * row, _tileWidth, _tileHeight);
 
                 GameObject newTile = new(tilesetTexture, tilesetRec, new Point((int)x, (int)y), new Point(1, 1), "tile", currentLevel);
-
-                /*
-                Put this back in when we add the special tiles layer
-                switch (gid)
-                {
-                    // Add special tile code here
-                    case 2:
-                        newTile.type = "target";
-                        newTile.AddAttribute("TargetComponent");
-                        newTile.SetAttributeVariable("TargetComponent", "TargetType", TARGETTYPE.swing);
-                        currentLevel.targets.Add(newTile);
-                        break;
-                    case 3:
-                        newTile.type = "ladder";
-                        break;
-                    case 4:
-                        newTile.type = "target";
-                        newTile.AddAttribute("TargetComponent");
-                        newTile.SetAttributeVariable("TargetComponent", "TargetType", TARGETTYPE.pull);
-                        currentLevel.targets.Add(newTile);
-                        break;
-                }*/
             }
         }
 
         // Now, we loop through the special tiles layer.
+        // For some reason, the gids in this tileset start at 1600
         for (var i = 0; i < _map.Layers[2].data.Length; i++)
         {
             int gid = _map.Layers[2].data[i];
 
-            // Empty tile, do nothing
-            if (gid == 0)
+            if (gid != 0)
             {
+                int tileFrame = gid - 1601;
 
-            }
-            else
-            {
-                int tileFrame = gid - 1;
-
-                var tile = _map.GetTiledTile(_map.Tilesets[1], _tileset, gid);
+                var tile = _map.GetTiledTile(_map.Tilesets[1], _tileset, gid - 1600);
 
                 int column = tileFrame % _tilesetTilesWide;
                 int row = (int)Math.Floor((double)tileFrame / (double)_tilesetTilesWide);
@@ -270,12 +261,28 @@ public class GameManager : Game
 
                 GameObject newTile = new(specialTilesetTexture, tilesetRec, new Point((int)x, (int)y), new Point(1, 1), "tile", currentLevel);
 
-                switch (gid)
+                switch (gid - 1600)
                 {
                     // Add special tile code here
                     case 1:
-                        currentLevel.PlayerSpawn = new Point(x, y);
                         newTile.Remove();
+                        currentLevel.PlayerSpawn = new Point(x, y);
+                        break;
+                    case 2:
+                        newTile.type = "target";
+                        newTile.AddAttribute("TargetComponent");
+                        newTile.SetAttributeVariable("TargetComponent", "TargetType", TARGETTYPE.swing);
+                        currentLevel.targets.Add(newTile);
+                        break;
+                    case 3:
+                        newTile.type = "target";
+                        newTile.AddAttribute("TargetComponent");
+                        newTile.SetAttributeVariable("TargetComponent", "TargetType", TARGETTYPE.pull);
+                        currentLevel.targets.Add(newTile);
+                        break;
+                    case 4:
+                        newTile.Remove();
+                        currentLevel.levelOrigin = new Point(x, y);
                         break;
                 }
             }

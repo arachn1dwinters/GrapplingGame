@@ -61,3 +61,5 @@ C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\obj\Debug\net6.0\Grappling
 C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\obj\Debug\net6.0\ref\GrapplingGame.dll
 C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\bin\Debug\net6.0\Content\tileset.xnb
 C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\bin\Debug\net6.0\Content\special_tileset.xnb
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\bin\Debug\net6.0\Content\Pixelify.xnb
+C:\Users\Isaac Winters\Desktop\Projects\GrapplingGame\bin\Debug\net6.0\MonoGame.Extended.dll

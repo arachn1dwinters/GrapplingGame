@@ -24,8 +24,9 @@ public class GrappleGunComponent : Component
             if ((bool)target.GetAttributeVariable("TargetComponent", "Active"))
             {
                 // Rotate to point at target
-                int dX = target.position.X - parent.position.X;
-                int dY = target.position.Y - parent.position.Y;
+                Point posToPointAt = target.position + new Point(16, 16);
+                int dX = posToPointAt.X - parent.position.X;
+                int dY = posToPointAt.Y - parent.position.Y;
 
                 parent.Rotation = (float)Math.Atan2(dY, dX);
                 TipOfGun.X = (int)(parent.position.X + 104 * Math.Cos(parent.Rotation));
