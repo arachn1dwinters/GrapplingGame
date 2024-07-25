@@ -42,4 +42,15 @@ public static class Functions
             SpriteEffects.None,
             1.0f);
     }
+
+    public static float CalculateInverseScaleFactor(float distanceFromBottom, float minDistance, float maxDistance)
+    {
+        // Clamp distanceFromBottom to ensure it's within the specified range
+        distanceFromBottom = Math.Max(minDistance, Math.Min(distanceFromBottom, maxDistance));
+
+        // Compute the scaling factor
+        float scaleFactor = (maxDistance - distanceFromBottom) / (maxDistance - minDistance);
+
+        return scaleFactor;
+    }
 }

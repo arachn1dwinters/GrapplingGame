@@ -23,7 +23,7 @@ namespace GrapplingGame
 
         public float CameraSpeed = 15;
 
-        public CAMERAMODE cameraMode = CAMERAMODE.playerBottom;
+        public CAMERAMODE cameraMode = CAMERAMODE.playerCenter;
 
         public Camera()
         {
@@ -73,7 +73,7 @@ namespace GrapplingGame
                 }
             } else
             {
-                TargetCenter = new Vector2(currentGM.HalfScreenWidth, currentGM.HalfScreenHeight);
+                TargetCenter = new Vector2(currentGM.HalfScreenWidth, currentGM.HalfScreenHeight); 
             }
         }
 

@@ -144,15 +144,18 @@ public class GameManager : Game
         // Render Gameobjects
         foreach (GameObject obj in currentLevel.GameObjects)
         {
-            if (obj.sprite != null && !obj.dontRender)
+            if (obj.Visible)
             {
-                if (obj.cropped == false)
+                if (obj.sprite != null && !obj.dontRender)
                 {
-                    _spriteBatch.Draw(obj.sprite, new Microsoft.Xna.Framework.Vector2(obj.position.X, obj.position.Y), null, Color.White, obj.Rotation, obj.origin, new Microsoft.Xna.Framework.Vector2(obj.sizeMultiplier.X, obj.sizeMultiplier.Y), SpriteEffects.None, 1);
-                }
-                else
-                {
-                    _spriteBatch.Draw(obj.sprite, new Rectangle(obj.rect.X, obj.rect.Y, obj.width * obj.sizeMultiplier.X, obj.height * obj.sizeMultiplier.Y), obj.cropRect, Color.White);
+                    if (obj.cropped == false)
+                    {
+                        _spriteBatch.Draw(obj.sprite, new Microsoft.Xna.Framework.Vector2(obj.position.X, obj.position.Y), null, Color.White, obj.Rotation, obj.origin, new Microsoft.Xna.Framework.Vector2(obj.sizeMultiplier.X, obj.sizeMultiplier.Y), SpriteEffects.None, 1);
+                    }
+                    else
+                    {
+                        _spriteBatch.Draw(obj.sprite, new Rectangle(obj.rect.X, obj.rect.Y, obj.width * obj.sizeMultiplier.X, obj.height * obj.sizeMultiplier.Y), obj.cropRect, Color.White);
+                    }
                 }
             }
 

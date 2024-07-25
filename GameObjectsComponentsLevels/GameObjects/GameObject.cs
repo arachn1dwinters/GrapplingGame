@@ -29,6 +29,7 @@ public class GameObject
     public bool dontRender;
     public float Rotation = 0;
     public Vector2 origin = new(0, 0);
+    public bool Visible = true;
 
     // Parents
     public Level parent;

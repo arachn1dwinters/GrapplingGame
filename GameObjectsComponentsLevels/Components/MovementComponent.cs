@@ -25,7 +25,7 @@ public class MovementComponent : Component
 
     // Physics and Velocity
     public Point Velocity;
-    public int Gravity = 10;
+    public int Gravity = 12;
     public int BaseGravity = 10;
     public bool Grounded;
     bool climbing;
@@ -182,6 +182,13 @@ public class MovementComponent : Component
                 {
                     climbing = false;
                 }
+
+                if (parent.parent.CurrentActiveTarget != null)
+                {
+                    parent.parent.Disconnect();
+                    parent.parent.CanReconnect = false;
+                }
+
                 break;
             }
         }
@@ -222,12 +229,19 @@ public class MovementComponent : Component
                 parent.parent.GrappleGun.position.Y += (int)collision[1];
                 tipOfGrappleGun.Y += (int)collision[1];
                 parent.parent.GrappleGun.SetAttributeVariable("GrappleGunComponent", "TipOfGun", new Point(tipOfGrappleGun.X, tipOfGrappleGun.Y + (int)collision[1]));
+
+                if (parent.parent.CurrentActiveTarget != null)
+                {
+                    parent.parent.Disconnect();
+                    parent.parent.CanReconnect = false;
+                }
+
                 break;
             }
         }
     }
 
-    // Checks if the game object is Grounded. If so, it sets Grounded to be true
+    // Check if the game object is Grounded. If so, set Grounded to be true
     void CheckIfGrounded()
     {
         List<object> collision = Collision.CheckYCollision(1, parent);

@@ -33,7 +33,12 @@ public class GrappleGunComponent : Component
                 TipOfGun.Y = (int)(parent.position.Y + 104 * Math.Sin(parent.Rotation));
 
                 parent.position = parent.parent.Player.position + new Point(16, 16);
+
+                parent.Visible = true;
                 break;
+            } else
+            {
+                parent.Visible = false;
             }
         }
     }

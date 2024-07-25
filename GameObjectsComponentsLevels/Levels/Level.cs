@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using GrapplingGame.GameObjectsComponentsLevels.Components;
 using GrapplingGame.GameObjectsComponentsLevels.GameObjects;
+using GrapplingGame.GameObjectsComponentsLevels.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
@@ -24,6 +25,8 @@ public class Level
 
     public Point levelOrigin;
 
+    public bool CanReconnect = true;
+
     public Level(GameManager parent, bool respawn)
     {
         GameObjects = new();
@@ -42,7 +45,7 @@ public class Level
 
         if (!(bool)Player.GetAttributeVariable("MovementComponent", "Grounded"))
         {
-            if (mouseState.LeftButton == ButtonState.Pressed)
+            if (mouseState.LeftButton == ButtonState.Pressed && CanReconnect)
             {
                 foreach (GameObject target in targets)
                 {
@@ -71,11 +74,10 @@ public class Level
             {
                 if (CurrentActiveTarget != null)
                 {
-                    Player.SetAttributeVariable("MovementComponent", "Grappling", false);
-                    Player.SetAttributeVariable("MovementComponent", "Velocity", Player.GetAttributeVariable("GrapplePhysicsComponent", "MostRecentMovement"));
-                    CurrentActiveTarget.SetAttributeVariable("TargetComponent", "Active", false);
-                    CurrentActiveTarget = null;
+                    Disconnect();
                 }
+
+                CanReconnect = true;
             }
         }
     }
@@ -120,5 +122,16 @@ public class Level
         target.SetAttributeVariable("TargetComponent", "Active", true);
         CurrentActiveTarget = target;
         Player.SetAttributeVariable("MovementComponent", "Grappling", true);
+    }
+
+    public void Disconnect()
+    {
+        Player.SetAttributeVariable("MovementComponent", "Grappling", false);
+        if ((TARGETTYPE)CurrentActiveTarget.GetAttributeVariable("TargetComponent", "TargetType") == TARGETTYPE.swing)
+        {
+            Player.SetAttributeVariable("MovementComponent", "Velocity", (Point)Player.GetAttributeVariable("GrapplePhysicsComponent", "MostRecentMovement") * new Point(2, 2));
+        }
+        CurrentActiveTarget.SetAttributeVariable("TargetComponent", "Active", false);
+        CurrentActiveTarget = null;
     }
 }

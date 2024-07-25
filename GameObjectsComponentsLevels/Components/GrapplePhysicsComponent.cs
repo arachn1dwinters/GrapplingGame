@@ -38,7 +38,8 @@ public class GrapplePhysicsComponent : Component
 
         if (parent.parent.CurrentActiveTarget != null)
         {
-            TARGETTYPE targetType = (TARGETTYPE)parent.parent.CurrentActiveTarget.GetAttributeVariable("TargetComponent", "TargetType");
+            GameObject target = parent.parent.CurrentActiveTarget;
+            TARGETTYPE targetType = (TARGETTYPE)target.GetAttributeVariable("TargetComponent", "TargetType");
             if (targetType == TARGETTYPE.swing)
             {
                 if (!SetAngle)
@@ -48,6 +49,19 @@ public class GrapplePhysicsComponent : Component
                     angleIncrement = AngleIncrement * scaleFactor;
                     angleVelocity = 0;
                     SetAngle = true;
+                }
+
+                float distanceFromBottomNormalized = (float)(Math.Abs(target.position.X - parent.position.X) / (Math.Abs(distanceFromTarget) / 2));
+                // scale angle increment based on inverse relationship with distanceFromBottom
+                float inverseScaleFactor = 1.5f - distanceFromBottomNormalized;
+                float minAngleIncrement = 0.01f;
+                angleIncrement = minAngleIncrement + (Math.PI / 100 - minAngleIncrement) * inverseScaleFactor;
+
+                bool rightWay = (Clockwise && parent.position.X < target.position.X) || (!Clockwise && parent.position.X > target.position.X);
+                if (angleIncrement <= 0.005 && rightWay)
+                {
+                    angleIncrement = -angleIncrement;
+                    Clockwise = !Clockwise;
                 }
 
                 Angle = Clockwise ? Angle + angleIncrement + angleVelocity : Angle - angleIncrement - angleVelocity;
