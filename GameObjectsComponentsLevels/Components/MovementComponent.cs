@@ -50,8 +50,8 @@ public class MovementComponent : Component
         bool baseGrounded = Grounded;
 
         // Set step counts
-        xStep = parent.width * parent.sizeMultiplier.X + (12 - 1);
-        yStep = parent.height * parent.sizeMultiplier.X + (12 - 1);
+        xStep = parent.width * parent.sizeMultiplier.X + (16 - 1);
+        yStep = parent.height * parent.sizeMultiplier.Y + (16 - 1);
 
         // Move X
         if (!Grappling)
@@ -97,7 +97,13 @@ public class MovementComponent : Component
         // Momentum on the X axis
         if (Velocity.X != 0)
         {
-            Velocity.X = Velocity.X < 0 ? Velocity.X + 1 : Velocity.X - 1;
+            if (!Grounded) Velocity.X = Velocity.X < 0 ? Velocity.X + 1 : Velocity.X - 1;
+
+            if (Grounded)
+            {
+                int xVelocity = Math.Abs(Velocity.X);
+                Velocity.X = Velocity.X < 0 ? Velocity.X + xVelocity : Velocity.X - xVelocity;
+            }
         }
 
         if (Velocity.Y > 0)
@@ -227,7 +233,6 @@ public class MovementComponent : Component
                 parent.parent.GrappleGun.position.Y += (int)collision[1];
                 tipOfGrappleGun.Y += (int)collision[1];
                 parent.parent.GrappleGun.SetAttributeVariable("GrappleGunComponent", "TipOfGun", new Point(tipOfGrappleGun.X, tipOfGrappleGun.Y + (int)collision[1]));
-
                 break;
             }
         }
@@ -241,6 +246,7 @@ public class MovementComponent : Component
         if ((bool)collision[0])
         {
             Grounded = true;
+            if (Velocity.Y > 0) Velocity.Y = 0;
         }
         else
         {
@@ -252,6 +258,7 @@ public class MovementComponent : Component
         if ((bool)collision[0])
         {
             Ceilinged = true;
+            if (Velocity.Y < 0) Velocity.Y = 0;
         }
         else
         {
@@ -263,6 +270,7 @@ public class MovementComponent : Component
         if ((bool)collision[0])
         {
             RightWalled = true;
+            if (Velocity.X > 0) Velocity.X = 0;
         }
         else
         {
@@ -274,6 +282,7 @@ public class MovementComponent : Component
         if ((bool)collision[0])
         {
             LeftWalled = true;
+            if (Velocity.X < 0) Velocity.X = 0;
         }
         else
         {

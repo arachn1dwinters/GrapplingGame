@@ -285,6 +285,7 @@ public class GameManager : Game
                         newTile.type = "target";
                         newTile.AddAttribute("TargetComponent");
                         newTile.SetAttributeVariable("TargetComponent", "TargetType", TARGETTYPE.swing);
+
                         currentLevel.targets.Add(newTile);
                         break;
                     case 3:
