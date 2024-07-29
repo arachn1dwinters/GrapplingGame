@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GrapplingGame")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5d22f610a971334db1defad9de24602f1534fbe8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+090deef1499a6851a51c387e5e62e7962099d28e")]
 [assembly: System.Reflection.AssemblyProductAttribute("GrapplingGame")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GrapplingGame")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

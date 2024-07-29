@@ -15,6 +15,7 @@ using GrapplingGame.GameObjectsComponentsLevels.Helpers;
 
 using MonoGame.Extended;
 using MonoGame.Extended.ViewportAdapters;
+using System.IO.Pipes;
 
 namespace GrapplingGame;
 public class GameManager : Game
@@ -22,12 +23,11 @@ public class GameManager : Game
     GraphicsDeviceManager _graphics;
     SpriteBatch _spriteBatch;
 
-    // Texture2Ds
+    // Content
     public Texture2D playerSprite;
     public Texture2D grapplingGunSprite;
     public Texture2D targetActiveSprite;
-
-    // Fonts
+    public Texture2D cursorImage;
     public SpriteFont pixelify;
 
     // Levels
@@ -91,6 +91,8 @@ public class GameManager : Game
 
         Level1 level1 = new(this, false);
         CurrentLevel = level1;
+
+        //IsMouseVisible = false;
     }
 
     protected override void LoadContent()
@@ -100,6 +102,7 @@ public class GameManager : Game
         playerSprite = this.Content.Load<Texture2D>("Player");
         grapplingGunSprite = Content.Load<Texture2D>("grappling_gun");
         targetActiveSprite = Content.Load<Texture2D>("TargetActive");
+        cursorImage = Content.Load<Texture2D>("Cursor");
         pixelify = Content.Load<SpriteFont>("Pixelify");
 
         // Add it to the desktop
@@ -141,6 +144,8 @@ public class GameManager : Game
         var transformMatrix = OrthographicCamera.GetViewMatrix();
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix : transformMatrix);
 
+        _spriteBatch.Draw(cursorImage, new Rectangle(currentLevel.MousePosition, new Point(32, 32)), Color.White);
+
         // Render Gameobjects
         foreach (GameObject obj in currentLevel.GameObjects)
         {
@@ -150,7 +155,7 @@ public class GameManager : Game
                 {
                     if (obj.cropped == false)
                     {
-                        _spriteBatch.Draw(obj.sprite, new Microsoft.Xna.Framework.Vector2(obj.position.X, obj.position.Y), null, Color.White, obj.Rotation, obj.origin, new Microsoft.Xna.Framework.Vector2(obj.sizeMultiplier.X, obj.sizeMultiplier.Y), SpriteEffects.None, 1);
+                        _spriteBatch.Draw(obj.sprite, new Vector2(obj.position.X, obj.position.Y), null, Color.White, obj.Rotation, obj.origin, new Vector2(obj.sizeMultiplier.X, obj.sizeMultiplier.Y), SpriteEffects.None, 1);
                     }
                     else
                     {
@@ -172,7 +177,7 @@ public class GameManager : Game
             if (currentLevel.Player != null)
             {
                 Point currentPlayerVelocity = (Point)currentLevel.Player.GetAttributeVariable("MovementComponent", "Velocity");
-                _spriteBatch.DrawString(pixelify, $"{currentLevel.Player.position.X}, {currentLevel.Player.position.Y}", OrthographicCamera.ScreenToWorld(new Vector2(0, 0)), Color.White);
+                _spriteBatch.DrawString(pixelify, $"{currentLevel.CanConnect}", OrthographicCamera.ScreenToWorld(new Vector2(0, 0)), Color.White);
             }
         }
 
@@ -192,34 +197,39 @@ public class GameManager : Game
             obj.Remove();
         }
 
-        // Tiles
-        // Set the "Copy to Output Directory" property of these two files to `Copy if newer`
-        // by clicking them in the solution explorer.
-        string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        string path = "";
+        FileStream specialFileStream;
+        FileStream fileStream;
+        try
+        {
+            path = Path.GetDirectoryName(AppContext.BaseDirectory);
 
-        _map = new TiledMap(path + "/" + Content.RootDirectory + "/tilemaps/" + tiledLevel);
-        _tileset = new TiledTileset(path + "/" + Content.RootDirectory + "/tilemaps/Tileset.tsx");
+            _map = new TiledMap(path + "\\" + Content.RootDirectory + "\\tilemaps\\" + tiledLevel);
+            _tileset = new TiledTileset(path + "\\" + Content.RootDirectory + "\\tilemaps\\Tileset.tsx");
 
-        //_specialTilesetTexture = Content.Load<Texture2D>("special_tileset");
-        FileStream specialFileStream = new FileStream(path + "/" + Content.RootDirectory + "/tilemaps/special_tileset.png", FileMode.Open);
+            specialFileStream = new FileStream(path + "\\" + Content.RootDirectory + "\\tilemaps\\special_tileset.png", FileMode.Open);
+            fileStream = new FileStream(path + "\\" + Content.RootDirectory + "\\tilemaps\\tileset.png", FileMode.Open);
+        } catch
+        {
+            path = Path.GetDirectoryName(AppContext.BaseDirectory).Replace("\\win-x64", "");
+            _map = new TiledMap(path + "\\" + Content.RootDirectory + "\\tilemaps\\" + tiledLevel);
+            _tileset = new TiledTileset(path + "\\" + Content.RootDirectory + "\\tilemaps\\Tileset.tsx");
+
+            specialFileStream = new FileStream(path + "\\" + Content.RootDirectory + "\\tilemaps\\special_tileset.png", FileMode.Open);
+            fileStream = new FileStream(path + "\\" + Content.RootDirectory + "\\tilemaps\\tileset.png", FileMode.Open);
+        }
         Texture2D specialTilesetTexture = Texture2D.FromStream(GraphicsDevice, specialFileStream);
         specialFileStream.Dispose();
 
-        FileStream fileStream = new FileStream(path + "/" + Content.RootDirectory + "/tilemaps/tileset.png", FileMode.Open);
         Texture2D tilesetTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
         fileStream.Dispose();
 
         _tileWidth = _tileset.TileWidth;
         _tileHeight = _tileset.TileHeight;
 
-        // Amount of tiles on each row (left right)
         _tilesetTilesWide = _tileset.Columns;
-        // Amount of tiles on each column (up down)
         _tilesetTilesHeight = _tileset.TileCount / _tileset.Columns;
 
-        // Make tiles into GameObjects
-        /* Going through the secend map layer here because of how I do automapping -- there are two layers in the .tmx file, one of which determines where the tiles go and one of which
-         * (the one that we will be rendering) applies the rules*/
         for (var i = 0; i < _map.Layers[1].data.Length; i++)
         {
             int gid = _map.Layers[1].data[i];

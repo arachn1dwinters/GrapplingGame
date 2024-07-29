@@ -28,6 +28,9 @@ public class MovementComponent : Component
     public int Gravity = 12;
     public int BaseGravity = 10;
     public bool Grounded;
+    public bool Ceilinged;
+    public bool LeftWalled;
+    public bool RightWalled;
     bool climbing;
     public bool Grappling;
     public bool Pulling;
@@ -94,7 +97,7 @@ public class MovementComponent : Component
         // Momentum on the X axis
         if (Velocity.X != 0)
         {
-            Velocity.X = Velocity.X -= 1;
+            Velocity.X = Velocity.X < 0 ? Velocity.X + 1 : Velocity.X - 1;
         }
 
         if (Velocity.Y > 0)
@@ -112,13 +115,13 @@ public class MovementComponent : Component
         if (Movement.X != 0)
         {
             MoveX(Movement.X);
-            CheckIfGrounded();
+            CheckIfGrounded(new());
         }
 
         if (Movement.Y != 0)
         {
             MoveY(Movement.Y);
-            CheckIfGrounded();
+            CheckIfGrounded(new());
         }
 
 
@@ -183,12 +186,6 @@ public class MovementComponent : Component
                     climbing = false;
                 }
 
-                if (parent.parent.CurrentActiveTarget != null)
-                {
-                    parent.parent.Disconnect();
-                    parent.parent.CanReconnect = false;
-                }
-
                 break;
             }
         }
@@ -208,7 +205,8 @@ public class MovementComponent : Component
                 steps.Add(yStep);
             }
         }
-        // Add the remainder
+        // Add the remainder.
+
         steps.Add(amount % yStep);
 
         // Loop through every step
@@ -230,20 +228,15 @@ public class MovementComponent : Component
                 tipOfGrappleGun.Y += (int)collision[1];
                 parent.parent.GrappleGun.SetAttributeVariable("GrappleGunComponent", "TipOfGun", new Point(tipOfGrappleGun.X, tipOfGrappleGun.Y + (int)collision[1]));
 
-                if (parent.parent.CurrentActiveTarget != null)
-                {
-                    parent.parent.Disconnect();
-                    parent.parent.CanReconnect = false;
-                }
-
                 break;
             }
         }
     }
 
-    // Check if the game object is Grounded. If so, set Grounded to be true
-    void CheckIfGrounded()
+    // Check if the game object is touching a wall. If so, set Grounded to be true
+    void CheckIfGrounded(MouseState mouseState)
     {
+        // Check if Grounded
         List<object> collision = Collision.CheckYCollision(1, parent);
         if ((bool)collision[0])
         {
@@ -252,6 +245,39 @@ public class MovementComponent : Component
         else
         {
             Grounded = false;
+        }
+
+        // Check if Ceilinged
+        collision = Collision.CheckYCollision(-1, parent);
+        if ((bool)collision[0])
+        {
+            Ceilinged = true;
+        }
+        else
+        {
+            Ceilinged = false;
+        }
+
+        // Check if RightWalled
+        collision = Collision.CheckXCollision(1, parent);
+        if ((bool)collision[0])
+        {
+            RightWalled = true;
+        }
+        else
+        {
+            RightWalled = false;
+        }
+
+        // Check if LeftWalled
+        collision = Collision.CheckXCollision(-1, parent);
+        if ((bool)collision[0])
+        {
+            LeftWalled = true;
+        }
+        else
+        {
+            LeftWalled = false;
         }
     }
 }

@@ -1,13 +1,18 @@
 {
   "version": 2,
-  "dgSpecHash": "1XSq5+sr6fU=",
+  "dgSpecHash": "u+jRLSI44Jc=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Isaac Winters\\Desktop\\Projects\\GrapplingGame\\GrapplingGame.csproj",
+  "projectFilePath": "C:\\Users\\Isaac Winters\\OneDrive\\Desktop\\Projects\\GrapplingGame\\GrapplingGame.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Isaac Winters\\.nuget\\packages\\microsoft.net.illink.analyzers\\7.0.100-1.23401.1\\microsoft.net.illink.analyzers.7.0.100-1.23401.1.nupkg.sha512",
+    "C:\\Users\\Isaac Winters\\.nuget\\packages\\microsoft.net.illink.tasks\\7.0.100-1.23401.1\\microsoft.net.illink.tasks.7.0.100-1.23401.1.nupkg.sha512",
     "C:\\Users\\Isaac Winters\\.nuget\\packages\\monogame.content.builder.task\\3.8.1.303\\monogame.content.builder.task.3.8.1.303.nupkg.sha512",
     "C:\\Users\\Isaac Winters\\.nuget\\packages\\monogame.extended\\4.0.0\\monogame.extended.4.0.0.nupkg.sha512",
     "C:\\Users\\Isaac Winters\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.1.303\\monogame.framework.desktopgl.3.8.1.303.nupkg.sha512",
-    "C:\\Users\\Isaac Winters\\.nuget\\packages\\tiledcs\\3.3.3\\tiledcs.3.3.3.nupkg.sha512"
+    "C:\\Users\\Isaac Winters\\.nuget\\packages\\tiledcs\\3.3.3\\tiledcs.3.3.3.nupkg.sha512",
+    "C:\\Users\\Isaac Winters\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\6.0.32\\microsoft.aspnetcore.app.runtime.win-x64.6.0.32.nupkg.sha512",
+    "C:\\Users\\Isaac Winters\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\6.0.32\\microsoft.windowsdesktop.app.runtime.win-x64.6.0.32.nupkg.sha512",
+    "C:\\Users\\Isaac Winters\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\6.0.32\\microsoft.netcore.app.runtime.win-x64.6.0.32.nupkg.sha512"
   ],
   "logs": []
 }
