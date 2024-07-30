@@ -212,6 +212,7 @@ public class GameManager : Game
         } catch
         {
             path = Path.GetDirectoryName(AppContext.BaseDirectory).Replace("\\win-x64", "");
+            path = Path.GetDirectoryName(AppContext.BaseDirectory).Replace("\\osx-x64", "");
             _map = new TiledMap(path + "\\" + Content.RootDirectory + "\\tilemaps\\" + tiledLevel);
             _tileset = new TiledTileset(path + "\\" + Content.RootDirectory + "\\tilemaps\\Tileset.tsx");
 
