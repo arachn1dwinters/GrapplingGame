@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Threading.Tasks;
 using GrapplingGame.GameObjectsComponentsLevels.Components;
 using GrapplingGame.GameObjectsComponentsLevels.GameObjects;
 using GrapplingGame.GameObjectsComponentsLevels.Helpers;
@@ -13,8 +15,13 @@ public class Level
     // Children
     public virtual List<GameObject> GameObjects { get; set; }
 
-    // Tiles
-    public virtual string tiledMap { get; set; }
+    // Screens
+    public virtual string TiledMap { get; set; }
+    public virtual List<Screen> Screens { get; set; }
+    public int ScreenIndex = 0;
+    public string FolderName;
+    public GameObject Curtain;
+    bool CurtainDown;
 
     // Gameplay
     public GameObject Player;
@@ -23,12 +30,11 @@ public class Level
     public GameObject CurrentActiveTarget;
     public GameObject HoveredTarget; 
     public int DistanceFromTarget;
-    public Point levelOrigin;
     public Point MousePosition;
     public Point TargetMousePosition;
     public bool CanConnect = true;
     int mouseSpeed = 50;
-    public List<GameObject> targets = new();
+    public List<GameObject> Targets = new();
 
     public Level(GameManager parent, bool respawn)
     {
@@ -38,6 +44,28 @@ public class Level
         {
             parent.levels.Add(this);
         }
+
+        Curtain = new(GameManager.Instance.CurtainSheet, new Point(0, 0), new Point(4, 4), "Curtain", this, new()
+        {
+            "AnimationComponent"
+        })
+        {
+            collidable = false,
+            Visible = false
+        };
+
+        Curtain.SetComponentVariable("AnimationComponent", "frameWidth", 400);
+        Curtain.SetComponentVariable("AnimationComponent", "frameHeight", 225);
+        Curtain.SetComponentVariable("AnimationComponent", "animationLengths", new List<int>()
+        {
+            16,
+            16,
+        });
+        Curtain.SetComponentVariable("AnimationComponent", "Events", new List<Event>()
+        {
+            new(NextScreen, 0)
+        });
+        Curtain.SetComponentVariable("AnimationComponent", "timeBetweenFrames", 0.03);
     }
 
     public virtual void Update()
@@ -49,7 +77,7 @@ public class Level
         {
             List<GameObject> hoveredTargets = new();
             int hoverDistance = 2000;
-            foreach (GameObject target in targets)
+            foreach (GameObject target in Targets)
             {
                 int distance = (int)Math.Floor(Math.Pow(mousePos.X - target.position.X, 2) + Math.Pow(mousePos.Y - target.position.Y, 2));
                 if (distance < hoverDistance)
@@ -75,17 +103,17 @@ public class Level
             }
         }
 
-        if (!(bool)Player.GetAttributeVariable("MovementComponent", "Grounded") && !(bool)Player.GetAttributeVariable("MovementComponent", "Ceilinged") && !(bool)Player.GetAttributeVariable("MovementComponent", "RightWalled") && !(bool)Player.GetAttributeVariable("MovementComponent", "LeftWalled") && CanConnect)
+        if (!(bool)Player.GetComponentVariable("MovementComponent", "Grounded") && !(bool)Player.GetComponentVariable("MovementComponent", "Ceilinged") && !(bool)Player.GetComponentVariable("MovementComponent", "RightWalled") && !(bool)Player.GetComponentVariable("MovementComponent", "LeftWalled") && CanConnect)
         {
             if (mouseState.LeftButton == ButtonState.Pressed)
             {
                 if (CurrentActiveTarget == null && HoveredTarget != null)
                 {
                     SwitchTarget(HoveredTarget);
-                    Point playerVelocity = (Point)Player.GetAttributeVariable("MovementComponent", "Velocity");
-                    Point playerMovement = (Point)Player.GetAttributeVariable("MovementComponent", "Movement");
+                    Point playerVelocity = (Point)Player.GetComponentVariable("MovementComponent", "Velocity");
+                    Point playerMovement = (Point)Player.GetComponentVariable("MovementComponent", "Movement");
                     Point actualPlayerVelocity = playerVelocity + playerMovement;
-                    Player.SetAttributeVariable("GrapplePhysicsComponent", "AngleIncrement",
+                    Player.SetComponentVariable("GrapplePhysicsComponent", "AngleIncrement",
                         Math.Min(GrapplePhysicsComponent.DistanceToIncrement(Math.Sqrt(Math.Pow(actualPlayerVelocity.X, 2) + Math.Pow(actualPlayerVelocity.Y, 2)), this), 0.1));
 
                     bool clockwise = false;
@@ -93,9 +121,9 @@ public class Level
                     {
                         clockwise = true;
                     }
-                    Player.SetAttributeVariable("GrapplePhysicsComponent", "Clockwise", clockwise);
+                    Player.SetComponentVariable("GrapplePhysicsComponent", "Clockwise", clockwise);
 
-                    Player.SetAttributeVariable("MovementComponent", "Velocity", new Point(0, 0));
+                    Player.SetComponentVariable("MovementComponent", "Velocity", new Point(0, 0));
                 }
             }
             else
@@ -107,7 +135,7 @@ public class Level
             }
         }
 
-        if ((bool)Player.GetAttributeVariable("MovementComponent", "Grounded") || (bool)Player.GetAttributeVariable("MovementComponent", "Ceilinged") || (bool)Player.GetAttributeVariable("MovementComponent", "RightWalled") || (bool)Player.GetAttributeVariable("MovementComponent", "LeftWalled"))
+        if ((bool)Player.GetComponentVariable("MovementComponent", "Grounded") || (bool)Player.GetComponentVariable("MovementComponent", "Ceilinged") || (bool)Player.GetComponentVariable("MovementComponent", "RightWalled") || (bool)Player.GetComponentVariable("MovementComponent", "LeftWalled"))
         {
             if (CurrentActiveTarget != null)
             {
@@ -133,8 +161,42 @@ public class Level
                 Vector2 movementVector = targetDistancePoint * new Vector2(targetDistance, targetDistance);
                 MousePosition += movementVector.ToPoint();
             }
-        }    
+        }
+
+        // Next screen
+        if (ScreenIndex + 1 != Screens.Count && !Screens[ScreenIndex].Bounds.Intersects(Player.rect))
+        {
+            ScreenIndex += 1;
+
+            Curtain.Visible = true;
+            Curtain.position = GameManager.Instance.OrthographicCamera.ScreenToWorld(Vector2.Zero).ToPoint();
+            Curtain.SetComponentVariable("AnimationComponent", "currentAnimation", 0);
+            Curtain.SetComponentVariable("AnimationComponent", "playing", true);
+        }
+
+        if (CurtainDown)
+        {
+            Curtain.SetComponentVariable("AnimationComponent", "currentAnimation", 1);
+            Curtain.SetComponentVariable("AnimationComponent", "playing", true);
+            CurtainDown = false;
+        }
     }
+
+    public void NextScreen()
+    {
+        CurtainDown = true;
+        Targets.Clear();
+        TiledMap = FolderName + Screens[ScreenIndex].Path;
+        GameManager.Instance.CreateMap(TiledMap);
+
+        Player.position = PlayerSpawn;
+        GrappleGun.position = PlayerSpawn + new Point(32, 32);
+        Player.SetComponentVariable("MovementComponent", "Velocity", Point.Zero);
+        Camera.Instance.TargetCenter = new(GameManager.Instance.HalfScreenWidth, GameManager.Instance.HalfScreenHeight);
+        GameManager.Instance.OrthographicCamera.Position = Vector2.Zero;
+        GameManager.Instance.SpriteTint = Color.White;
+    }
+
     public virtual void Initialize() { }
 
     public void Remove()
@@ -168,23 +230,35 @@ public class Level
             }
         }
 
-        Player.SetAttributeVariable("GrapplePhysicsComponent", "Angle", rot);
+        Player.SetComponentVariable("GrapplePhysicsComponent", "Angle", rot);
 
-        target.SetAttributeVariable("TargetComponent", "Active", true);
+        target.SetComponentVariable("TargetComponent", "Active", true);
         CurrentActiveTarget = target;
-        Player.SetAttributeVariable("MovementComponent", "Grappling", true);
+        Player.SetComponentVariable("MovementComponent", "Grappling", true);
 
         TargetMousePosition = CurrentActiveTarget.position;
     }
 
     public void Disconnect(MouseState mouseState)
     {
-        Player.SetAttributeVariable("MovementComponent", "Grappling", false);
-        if ((TARGETTYPE)CurrentActiveTarget.GetAttributeVariable("TargetComponent", "TargetType") == TARGETTYPE.swing)
+        Player.SetComponentVariable("MovementComponent", "Grappling", false);
+        if ((TARGETTYPE)CurrentActiveTarget.GetComponentVariable("TargetComponent", "TargetType") == TARGETTYPE.swing)
         {
-            Player.SetAttributeVariable("MovementComponent", "Velocity", (Point)Player.GetAttributeVariable("GrapplePhysicsComponent", "MostRecentMovement") * new Point(2, 2));
+            Player.SetComponentVariable("MovementComponent", "Velocity", (Point)Player.GetComponentVariable("GrapplePhysicsComponent", "MostRecentMovement") * new Point(2, 2));
         }
-        CurrentActiveTarget.SetAttributeVariable("TargetComponent", "Active", false);
+        CurrentActiveTarget.SetComponentVariable("TargetComponent", "Active", false);
         CurrentActiveTarget = null;
+    }
+}
+
+public struct Screen
+{
+    public Rectangle Bounds;
+    public string Path; // In general, another string with the name of the level folder (e.g. "Level1/") will be added to this one.
+
+    public Screen(Rectangle Bounds, string Path)
+    {
+        this.Bounds = Bounds;
+        this.Path = Path;
     }
 }

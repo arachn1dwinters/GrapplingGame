@@ -39,7 +39,7 @@ public class GrapplePhysicsComponent : Component
         if (parent.parent.CurrentActiveTarget != null)
         {
             GameObject target = parent.parent.CurrentActiveTarget;
-            TARGETTYPE targetType = (TARGETTYPE)target.GetAttributeVariable("TargetComponent", "TargetType");
+            TARGETTYPE targetType = (TARGETTYPE)target.GetComponentVariable("TargetComponent", "TargetType");
             if (targetType == TARGETTYPE.swing)
             {
                 if (!SetAngle)
@@ -72,8 +72,8 @@ public class GrapplePhysicsComponent : Component
                 );
                 MostRecentMovement = newPlayerPosition - parent.position;
 
-                Point playerMovement = (Point)parent.GetAttributeVariable("MovementComponent", "Movement");
-                parent.SetAttributeVariable("MovementComponent", "Movement", playerMovement + MostRecentMovement);
+                Point playerMovement = (Point)parent.GetComponentVariable("MovementComponent", "Movement");
+                parent.SetComponentVariable("MovementComponent", "Movement", playerMovement + MostRecentMovement);
 
                 if (angleVelocity != 0)
                 {
@@ -91,7 +91,7 @@ public class GrapplePhysicsComponent : Component
             {
                 Point targetPosition = parent.parent.CurrentActiveTarget.position;
                 Point gunPosition = parent.parent.GrappleGun.position;
-                Point gunTipPosition = (Point)parent.parent.GrappleGun.GetAttributeVariable("GrappleGunComponent", "TipOfGun");
+                Point gunTipPosition = (Point)parent.parent.GrappleGun.GetComponentVariable("GrappleGunComponent", "TipOfGun");
 
                 // The reason that we don't use parent.parent.DistanceToTarget here is that that is only created when the grappling hook latches on to the target, not updated every frame like this one.
                 double distanceToTarget = Math.Sqrt(Math.Pow(targetPosition.X - parent.position.X, 2) + Math.Pow(targetPosition.Y - parent.position.Y, 2));
@@ -107,8 +107,8 @@ public class GrapplePhysicsComponent : Component
                 Point newGunPosition = new(newX, newY);
                 Point actualMovement = newGunPosition - new Point(16, 16) - parent.position;
 
-                Point playerMovement = (Point)parent.GetAttributeVariable("MovementComponent", "Movement");
-                parent.SetAttributeVariable("MovementComponent", "Movement", playerMovement + actualMovement);
+                Point playerMovement = (Point)parent.GetComponentVariable("MovementComponent", "Movement");
+                parent.SetComponentVariable("MovementComponent", "Movement", playerMovement + actualMovement);
 
                 if (distanceToTarget <= 150)
                 {

@@ -15,7 +15,7 @@ using GrapplingGame.GameObjectsComponentsLevels.Helpers;
 
 using MonoGame.Extended;
 using MonoGame.Extended.ViewportAdapters;
-using System.IO.Pipes;
+using System.Diagnostics;
 
 namespace GrapplingGame;
 public class GameManager : Game
@@ -29,6 +29,7 @@ public class GameManager : Game
     public Texture2D targetActiveSprite;
     public Texture2D cursorImage;
     public SpriteFont pixelify;
+    public Texture2D CurtainSheet;
 
     // Levels
     Level currentLevel;
@@ -63,6 +64,7 @@ public class GameManager : Game
     public OrthographicCamera OrthographicCamera;
     public float HalfScreenWidth;
     public float HalfScreenHeight;
+    public Color SpriteTint = Color.White;
 
     public GameManager()
     {
@@ -104,6 +106,7 @@ public class GameManager : Game
         targetActiveSprite = Content.Load<Texture2D>("TargetActive");
         cursorImage = Content.Load<Texture2D>("Cursor");
         pixelify = Content.Load<SpriteFont>("Pixelify");
+        CurtainSheet = Content.Load<Texture2D>("curtain-sheet");
 
         // Add it to the desktop
         /*_desktop = new Desktop();
@@ -139,12 +142,12 @@ public class GameManager : Game
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.Black);
+        GraphicsDevice.Clear(Color.CornflowerBlue);
 
         var transformMatrix = OrthographicCamera.GetViewMatrix();
         _spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix : transformMatrix);
 
-        _spriteBatch.Draw(cursorImage, new Rectangle(currentLevel.MousePosition, new Point(32, 32)), Color.White);
+        _spriteBatch.Draw(cursorImage, new Rectangle(currentLevel.MousePosition, new Point(32, 32)), SpriteTint);
 
         // Render Gameobjects
         foreach (GameObject obj in currentLevel.GameObjects)
@@ -155,31 +158,34 @@ public class GameManager : Game
                 {
                     if (obj.cropped == false)
                     {
-                        _spriteBatch.Draw(obj.sprite, new Vector2(obj.position.X, obj.position.Y), null, Color.White, obj.Rotation, obj.origin, new Vector2(obj.sizeMultiplier.X, obj.sizeMultiplier.Y), SpriteEffects.None, 1);
+                        _spriteBatch.Draw(obj.sprite, new Vector2(obj.position.X, obj.position.Y), null, SpriteTint, obj.Rotation, obj.origin, new Vector2(obj.sizeMultiplier.X, obj.sizeMultiplier.Y), SpriteEffects.None, 1);
                     }
                     else
                     {
-                        _spriteBatch.Draw(obj.sprite, new Rectangle(obj.rect.X, obj.rect.Y, obj.width * obj.sizeMultiplier.X, obj.height * obj.sizeMultiplier.Y), obj.cropRect, Color.White);
+                        _spriteBatch.Draw(obj.sprite, new Rectangle(obj.rect.X, obj.rect.Y, obj.width * obj.sizeMultiplier.X, obj.height * obj.sizeMultiplier.Y), obj.cropRect, SpriteTint, obj.Rotation, obj.origin, SpriteEffects.None, 1);
                     }
                 }
             }
 
             if (obj.type == "target")
             {
-                if ((bool)obj.GetAttributeVariable("TargetComponent", "Active"))
+                if ((bool)obj.GetComponentVariable("TargetComponent", "Active"))
                 {
-                    Point startPos = (Point)CurrentLevel.GrappleGun.GetAttributeVariable("GrappleGunComponent", "TipOfGun");
+                    Point startPos = (Point)CurrentLevel.GrappleGun.GetComponentVariable("GrappleGunComponent", "TipOfGun");
                     Point endPos = new(obj.position.X + 16, obj.position.Y + 16);
-                    Functions.DrawLineBetween(_spriteBatch, startPos, endPos, 3, Color.White);
+                    Functions.DrawLineBetween(_spriteBatch, startPos, endPos, 3, SpriteTint);
                 }
             }
 
             if (currentLevel.Player != null)
             {
-                Point currentPlayerVelocity = (Point)currentLevel.Player.GetAttributeVariable("MovementComponent", "Velocity");
-                _spriteBatch.DrawString(pixelify, $"{currentLevel.CanConnect}", OrthographicCamera.ScreenToWorld(new Vector2(0, 0)), Color.White);
+                Point currentPlayerPosition = new(currentLevel.Player.rect.X, currentLevel.Player.rect.Y);
+                _spriteBatch.DrawString(pixelify, $"{currentPlayerPosition.X}, {currentPlayerPosition.Y}", OrthographicCamera.ScreenToWorld(new Vector2(0, 0)), SpriteTint);
             }
         }
+
+        GameObject curtain = currentLevel.Curtain;
+        _spriteBatch.Draw(curtain.sprite, new Rectangle(curtain.rect.X, curtain.rect.Y, curtain.width * curtain.sizeMultiplier.X, curtain.height * curtain.sizeMultiplier.Y), curtain.cropRect, SpriteTint, curtain.Rotation, curtain.origin, SpriteEffects.None, 1);
 
         _spriteBatch.End();
 
@@ -284,20 +290,15 @@ public class GameManager : Game
                         break;
                     case 2:
                         newTile.type = "target";
-                        newTile.AddAttribute("TargetComponent");
-                        newTile.SetAttributeVariable("TargetComponent", "TargetType", TARGETTYPE.swing);
-
-                        currentLevel.targets.Add(newTile);
+                        newTile.AddComponent("TargetComponent");
+                        newTile.SetComponentVariable("TargetComponent", "TargetType", TARGETTYPE.swing);
+                        currentLevel.Targets.Add(newTile);
                         break;
                     case 3:
                         newTile.type = "target";
-                        newTile.AddAttribute("TargetComponent");
-                        newTile.SetAttributeVariable("TargetComponent", "TargetType", TARGETTYPE.pull);
-                        currentLevel.targets.Add(newTile);
-                        break;
-                    case 4:
-                        newTile.Remove();
-                        currentLevel.levelOrigin = new Point(x, y);
+                        newTile.AddComponent("TargetComponent");
+                        newTile.SetComponentVariable("TargetComponent", "TargetType", TARGETTYPE.pull);
+                        currentLevel.Targets.Add(newTile);
                         break;
                 }
             }

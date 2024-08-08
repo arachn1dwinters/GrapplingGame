@@ -58,7 +58,7 @@ public class GameObject
         {
             foreach (string i in attributesToAdd)
             {
-                AddAttribute(i);
+                AddComponent(i);
             }
         }
 
@@ -97,7 +97,7 @@ public class GameObject
         {
             foreach (string i in attributesToAdd)
             {
-                AddAttribute(i);
+                AddComponent(i);
             }
         }
 
@@ -133,7 +133,7 @@ public class GameObject
         {
             foreach (string i in attributesToAdd)
             {
-                AddAttribute(i);
+                AddComponent(i);
             }
         }
 
@@ -168,7 +168,7 @@ public class GameObject
         {
             foreach (string i in attributesToAdd)
             {
-                AddAttribute(i);
+                AddComponent(i);
             }
         }
 
@@ -188,7 +188,7 @@ public class GameObject
         }
     }
 
-    public void AddAttribute(string componentName)
+    public void AddComponent(string componentName)
     {
         /*Here we use the assembly qualified name of the desired attribute, something like
         MirrorImage.GameObject.MovementAttribute, MirrorImage, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null*/
@@ -215,12 +215,12 @@ public class GameObject
         }
         catch
         {
-            Debug.WriteLine($"We couldn't find the component {componentName}.");
+            Console.WriteLine($"We couldn't find the component {componentName}.");
         }
     }
 
     // Call a specific method of an attribute
-    public void CallAttributeMethod(string attributeType, string method, object[] parameters = null)
+    public void CallComponentMethod(string attributeType, string method, object[] parameters = null)
     {
         // Loop through all attributes
         foreach (Component attribute in attributes)
@@ -243,7 +243,7 @@ public class GameObject
     }
 
     // Call a specific object method of an attribute
-    public object CallAttributeObjectMethod(string attributeType, string method, object[] parameters = null)
+    public object CallComponentObjectMethod(string attributeType, string method, object[] parameters = null)
     {
         // Loop through all attributes
         foreach (Component attribute in attributes)
@@ -267,7 +267,7 @@ public class GameObject
     }
 
     // Edit a variable of an attribute
-    public void SetAttributeVariable(string attributeType, string variable, object newVariable)
+    public void SetComponentVariable(string attributeType, string variable, object newVariable)
     {
         // Loop through all attributes
         foreach (Component attribute in attributes)
@@ -289,7 +289,7 @@ public class GameObject
         }
     }
 
-    public object GetAttributeVariable(string attributeType, string variable)
+    public object GetComponentVariable(string attributeType, string variable)
     {
         foreach (Component attribute in attributes)
         {

@@ -19,9 +19,9 @@ public class GrappleGunComponent : Component
     {
         base.Update(gameTime);
 
-        foreach (GameObject target in parent.parent.targets)
+        foreach (GameObject target in parent.parent.Targets)
         {
-            if ((bool)target.GetAttributeVariable("TargetComponent", "Active"))
+            if ((bool)target.GetComponentVariable("TargetComponent", "Active"))
             {
                 // Rotate to point at target
                 Point posToPointAt = target.position + new Point(16, 16);

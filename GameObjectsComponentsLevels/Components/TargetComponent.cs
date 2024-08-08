@@ -22,6 +22,6 @@ public class TargetComponent : Component
     public TargetComponent(GameObject parent) : base(parent)
     {
         type = "TargetComponent";
-        parent.parent.targets.Add(parent);
+        parent.parent.Targets.Add(parent);
     }
 }

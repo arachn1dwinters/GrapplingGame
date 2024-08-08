@@ -144,7 +144,7 @@ public class MovementComponent : Component
 
         if (Grounded != baseGrounded)
         {
-            parent.SetAttributeVariable("PlayerManager", "Grounded", Grounded);
+            parent.SetComponentVariable("PlayerManager", "Grounded", Grounded);
         }
     }
 
@@ -167,12 +167,12 @@ public class MovementComponent : Component
         foreach (int i in steps)
         {
             List<object> collision = Collision.CheckXCollision(i, parent);
-            Point tipOfGrappleGun = (Point)parent.parent.GrappleGun.GetAttributeVariable("GrappleGunComponent", "TipOfGun");
+            Point tipOfGrappleGun = (Point)parent.parent.GrappleGun.GetComponentVariable("GrappleGunComponent", "TipOfGun");
             if (!(bool)collision[0])
             {
                 parent.position.X += i;
                 parent.parent.GrappleGun.position.X += i;
-                parent.parent.GrappleGun.SetAttributeVariable("GrappleGunComponent", "TipOfGun", new Point(tipOfGrappleGun.X + i, tipOfGrappleGun.Y));
+                parent.parent.GrappleGun.SetComponentVariable("GrappleGunComponent", "TipOfGun", new Point(tipOfGrappleGun.X + i, tipOfGrappleGun.Y));
                 climbing = false;
             }
             else
@@ -180,7 +180,7 @@ public class MovementComponent : Component
                 parent.position.X += (int)collision[1];
                 parent.parent.GrappleGun.position.X += (int)collision[1];
                 tipOfGrappleGun.X += (int)collision[1];
-                parent.parent.GrappleGun.SetAttributeVariable("GrappleGunComponent", "TipOfGun", new Point(tipOfGrappleGun.X + (int)collision[1], tipOfGrappleGun.Y));
+                parent.parent.GrappleGun.SetComponentVariable("GrappleGunComponent", "TipOfGun", new Point(tipOfGrappleGun.X + (int)collision[1], tipOfGrappleGun.Y));
 
                 if ((string)collision[2] == "ladder")
                 {
@@ -220,19 +220,19 @@ public class MovementComponent : Component
         {
             // Add that step as long as it isn't colliding with anything
             List<object> collision = Collision.CheckYCollision(i, parent);
-            Point tipOfGrappleGun = (Point)parent.parent.GrappleGun.GetAttributeVariable("GrappleGunComponent", "TipOfGun");
+            Point tipOfGrappleGun = (Point)parent.parent.GrappleGun.GetComponentVariable("GrappleGunComponent", "TipOfGun");
             if (!(bool)collision[0])
             {
                 parent.position.Y += i;
                 parent.parent.GrappleGun.position.Y += i;
-                parent.parent.GrappleGun.SetAttributeVariable("GrappleGunComponent", "TipOfGun", new Point(tipOfGrappleGun.X, tipOfGrappleGun.Y + i));
+                parent.parent.GrappleGun.SetComponentVariable("GrappleGunComponent", "TipOfGun", new Point(tipOfGrappleGun.X, tipOfGrappleGun.Y + i));
             }
             else
             {
                 parent.position.Y += (int)collision[1];
                 parent.parent.GrappleGun.position.Y += (int)collision[1];
                 tipOfGrappleGun.Y += (int)collision[1];
-                parent.parent.GrappleGun.SetAttributeVariable("GrappleGunComponent", "TipOfGun", new Point(tipOfGrappleGun.X, tipOfGrappleGun.Y + (int)collision[1]));
+                parent.parent.GrappleGun.SetComponentVariable("GrappleGunComponent", "TipOfGun", new Point(tipOfGrappleGun.X, tipOfGrappleGun.Y + (int)collision[1]));
                 break;
             }
         }

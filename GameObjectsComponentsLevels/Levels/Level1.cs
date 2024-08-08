@@ -13,22 +13,29 @@ namespace GrapplingGame.GameObjectsComponentsLevels.Levels
     public class Level1 : Level
     {
         public Level1(GameManager parent, bool respawn) : base(parent, respawn) { }
-        public override string tiledMap { get; set; }
+        public override string TiledMap { get; set; }
+        public override List<Screen> Screens { get; set; }
 
         GameObject player;
         GameObject grappleGun;
 
         public override void Initialize()
         {
-            tiledMap = "Level1.tmx";
-            GameManager.Instance.CreateMap(tiledMap);
+            FolderName = "Level1/";
+            Screens = new()
+                { new(new(0, 0, 1600, 1250), "Screen1.tmx"),
+                new(new(0, 0, 1600, 1250), "Screen2.tmx") };
+
+            TiledMap = FolderName + Screens[ScreenIndex].Path;
+            GameManager.Instance.CreateMap(TiledMap);
 
             player = new(GameManager.Instance.playerSprite, PlayerSpawn, new Point(1, 1), "player", this, new()
             {
                 "MovementComponent",
-                "GrapplePhysicsComponent"
+                "GrapplePhysicsComponent",
             });
             Player = player;
+
 
             grappleGun = new(GameManager.Instance.grapplingGunSprite, PlayerSpawn + new Point(16, 16), new Point(1, 1), "Grappling Gun", this, new()
             {
@@ -38,7 +45,6 @@ namespace GrapplingGame.GameObjectsComponentsLevels.Levels
                 collidable = false,
                 origin = new Vector2(0, 16)
             };
-
             GrappleGun = grappleGun;
         }
 

@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<<<<<<< Updated upstream
   <SourceFile>/Users/orchidwinters/Projects/grapplingGame/Content/grappling_gun.png</SourceFile>
   <SourceTime>2024-06-26T14:46:35.3748437-07:00</SourceTime>
   <DestFile>/Users/orchidwinters/Projects/grapplingGame/Content/bin/DesktopGL/Content/grappling_gun.xnb</DestFile>
   <DestTime>2024-07-30T09:47:28.8311843-07:00</DestTime>
+=======
+  <SourceFile>C:/Users/Isaac Winters/OneDrive/Desktop/Projects/GrapplingGame/Content/grappling_gun.png</SourceFile>
+  <SourceTime>2024-08-05T17:03:32.8932257-07:00</SourceTime>
+  <DestFile>C:/Users/Isaac Winters/OneDrive/Desktop/Projects/GrapplingGame/Content/bin/DesktopGL/Content/grappling_gun.xnb</DestFile>
+  <DestTime>2024-08-05T17:03:39.8873572-07:00</DestTime>
+>>>>>>> Stashed changes
   <Importer>TextureImporter</Importer>
   <ImporterTime>2022-07-26T11:44:56-07:00</ImporterTime>
   <Processor>TextureProcessor</Processor>
