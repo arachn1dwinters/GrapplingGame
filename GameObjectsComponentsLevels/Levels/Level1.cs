@@ -21,14 +21,6 @@ namespace GrapplingGame.GameObjectsComponentsLevels.Levels
 
         public override void Initialize()
         {
-            FolderName = "Level1/";
-            Screens = new()
-                { new(new(0, 0, 1600, 1250), "Screen1.tmx"),
-                new(new(0, 0, 1600, 1250), "Screen2.tmx") };
-
-            TiledMap = FolderName + Screens[ScreenIndex].Path;
-            GameManager.Instance.CreateMap(TiledMap);
-
             player = new(GameManager.Instance.playerSprite, PlayerSpawn, new Point(1, 1), "player", this, new()
             {
                 "MovementComponent",

@@ -20,7 +20,7 @@ using System.Diagnostics;
 namespace GrapplingGame;
 public class GameManager : Game
 {
-    GraphicsDeviceManager _graphics;
+    readonly GraphicsDeviceManager _graphics;
     SpriteBatch _spriteBatch;
 
     // Content
@@ -30,6 +30,7 @@ public class GameManager : Game
     public Texture2D cursorImage;
     public SpriteFont pixelify;
     public Texture2D CurtainSheet;
+    Texture2D target;
 
     // Levels
     Level currentLevel;
@@ -44,17 +45,6 @@ public class GameManager : Game
         }
     }
     public List<Level> levels = new();
-
-    // Tiles
-    private TiledMap _map;
-    private TiledTileset _tileset;
-    private Texture2D _tilesetTexture;
-    private Texture2D _specialTilesetTexture;
-    private int _tileWidth;
-    private int _tileHeight;
-    private int _tilesetTilesWide;
-    private int _tilesetTilesHeight;
-    public List<GameObject> tiles = new();
 
     // Singleton stuff
     public static GameManager Instance;
@@ -95,6 +85,12 @@ public class GameManager : Game
         CurrentLevel = level1;
 
         //IsMouseVisible = false;
+
+        // Create Target
+        GameObject newTile = new(target, new Point((int)HalfScreenWidth, 100), new Point(1, 1), "target", currentLevel);
+        newTile.AddComponent("TargetComponent");
+        newTile.SetComponentVariable("TargetComponent", "TargetType", TARGETTYPE.swing);
+        currentLevel.Targets.Add(newTile);
     }
 
     protected override void LoadContent()
@@ -107,6 +103,7 @@ public class GameManager : Game
         cursorImage = Content.Load<Texture2D>("Cursor");
         pixelify = Content.Load<SpriteFont>("Pixelify");
         CurtainSheet = Content.Load<Texture2D>("curtain-sheet");
+        target = Content.Load<Texture2D>("Target");
 
         // Add it to the desktop
         /*_desktop = new Desktop();
@@ -184,9 +181,6 @@ public class GameManager : Game
             }
         }
 
-        GameObject curtain = currentLevel.Curtain;
-        _spriteBatch.Draw(curtain.sprite, new Rectangle(curtain.rect.X, curtain.rect.Y, curtain.width * curtain.sizeMultiplier.X, curtain.height * curtain.sizeMultiplier.Y), curtain.cropRect, SpriteTint, curtain.Rotation, curtain.origin, SpriteEffects.None, 1);
-
         _spriteBatch.End();
 
         // UI
@@ -195,7 +189,7 @@ public class GameManager : Game
         base.Draw(gameTime);
     }
 
-    public void CreateMap(string tiledLevel)
+    /*public void CreateMap(string tiledLevel)
     {
         // Remove all current tiles
         foreach (GameObject obj in tiles)
@@ -279,8 +273,6 @@ public class GameManager : Game
 
                 Rectangle tilesetRec = new(_tileWidth * column, _tileHeight * row, _tileWidth, _tileHeight);
 
-                GameObject newTile = new(specialTilesetTexture, tilesetRec, new Point((int)x, (int)y), new Point(1, 1), "tile", currentLevel);
-
                 switch (gid - 1600)
                 {
                     // Add special tile code here
@@ -303,5 +295,5 @@ public class GameManager : Game
                 }
             }
         }
-    }
+    }*/
 }

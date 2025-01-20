@@ -1,15 +1,8 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-<<<<<<< Updated upstream
-"/Users/orchidwinters/Projects/grapplingGame/Content/Cursor.png","/Users/orchidwinters/Projects/grapplingGame/Content/bin/DesktopGL/Content/Cursor.xnb","TextureProcessor","Texture2DContent",156,1109,0.426411
-"/Users/orchidwinters/Projects/grapplingGame/Content/grappling_gun.png","/Users/orchidwinters/Projects/grapplingGame/Content/bin/DesktopGL/Content/grappling_gun.xnb","TextureProcessor","Texture2DContent",601,13397,0.004507
-"/Users/orchidwinters/Projects/grapplingGame/Content/Pixelify.spritefont","/Users/orchidwinters/Projects/grapplingGame/Content/bin/DesktopGL/Content/Pixelify.xnb","FontDescriptionProcessor","SpriteFontContent",2023,37919,0.289995
-"/Users/orchidwinters/Projects/grapplingGame/Content/player_sprite.png","/Users/orchidwinters/Projects/grapplingGame/Content/bin/DesktopGL/Content/Player.xnb","TextureProcessor","Texture2DContent",190,4181,0.00274
-"/Users/orchidwinters/Projects/grapplingGame/Content/TargetActive.png","/Users/orchidwinters/Projects/grapplingGame/Content/bin/DesktopGL/Content/TargetActive.xnb","TextureProcessor","Texture2DContent",302,4181,0.003581
-=======
-"C:/Users/Isaac Winters/OneDrive/Desktop/Projects/GrapplingGame/Content/Cursor.png","C:/Users/Isaac Winters/OneDrive/Desktop/Projects/GrapplingGame/Content/bin/DesktopGL/Content/Cursor.xnb","TextureProcessor","Texture2DContent",156,1109,0.1002975
-"C:/Users/Isaac Winters/OneDrive/Desktop/Projects/GrapplingGame/Content/curtain-sheet.png","C:/Users/Isaac Winters/OneDrive/Desktop/Projects/GrapplingGame/Content/bin/DesktopGL/Content/curtain-sheet.xnb","TextureProcessor","Texture2DContent",24014,11520085,0.2378439
-"C:/Users/Isaac Winters/OneDrive/Desktop/Projects/GrapplingGame/Content/grappling_gun.png","C:/Users/Isaac Winters/OneDrive/Desktop/Projects/GrapplingGame/Content/bin/DesktopGL/Content/grappling_gun.xnb","TextureProcessor","Texture2DContent",725,13397,0.0993836
-"C:/Users/Isaac Winters/OneDrive/Desktop/Projects/GrapplingGame/Content/Pixelify.spritefont","C:/Users/Isaac Winters/OneDrive/Desktop/Projects/GrapplingGame/Content/bin/DesktopGL/Content/Pixelify.xnb","FontDescriptionProcessor","SpriteFontContent",2083,37919,0.0715185
-"C:/Users/Isaac Winters/OneDrive/Desktop/Projects/GrapplingGame/Content/player_sprite.png","C:/Users/Isaac Winters/OneDrive/Desktop/Projects/GrapplingGame/Content/bin/DesktopGL/Content/Player.xnb","TextureProcessor","Texture2DContent",190,4181,0.0011851
-"C:/Users/Isaac Winters/OneDrive/Desktop/Projects/GrapplingGame/Content/TargetActive.png","C:/Users/Isaac Winters/OneDrive/Desktop/Projects/GrapplingGame/Content/bin/DesktopGL/Content/TargetActive.xnb","TextureProcessor","Texture2DContent",302,4181,0.0010029
->>>>>>> Stashed changes
+"/home/I_Winters/Desktop/GrapplingGame/Content/Cursor.png","/home/I_Winters/Desktop/GrapplingGame/Content/bin/DesktopGL/Content/Cursor.xnb","TextureProcessor","Texture2DContent",156,1109,0.0761103
+"/home/I_Winters/Desktop/GrapplingGame/Content/curtain-sheet.png","/home/I_Winters/Desktop/GrapplingGame/Content/bin/DesktopGL/Content/curtain-sheet.xnb","TextureProcessor","Texture2DContent",24014,11520085,0.1173111
+"/home/I_Winters/Desktop/GrapplingGame/Content/grappling_gun.png","/home/I_Winters/Desktop/GrapplingGame/Content/bin/DesktopGL/Content/grappling_gun.xnb","TextureProcessor","Texture2DContent",725,13397,0.0012342
+"/home/I_Winters/Desktop/GrapplingGame/Content/Pixelify.spritefont","/home/I_Winters/Desktop/GrapplingGame/Content/bin/DesktopGL/Content/Pixelify.xnb","FontDescriptionProcessor","SpriteFontContent",2023,37919,0.0616763
+"/home/I_Winters/Desktop/GrapplingGame/Content/player_sprite.png","/home/I_Winters/Desktop/GrapplingGame/Content/bin/DesktopGL/Content/Player.xnb","TextureProcessor","Texture2DContent",190,4181,0.0010171
+"/home/I_Winters/Desktop/GrapplingGame/Content/Target.png","/home/I_Winters/Desktop/GrapplingGame/Content/bin/DesktopGL/Content/Target.xnb","TextureProcessor","Texture2DContent",320,4181,0.074305
+"/home/I_Winters/Desktop/GrapplingGame/Content/TargetActive.png","/home/I_Winters/Desktop/GrapplingGame/Content/bin/DesktopGL/Content/TargetActive.xnb","TextureProcessor","Texture2DContent",302,4181,0.0011535

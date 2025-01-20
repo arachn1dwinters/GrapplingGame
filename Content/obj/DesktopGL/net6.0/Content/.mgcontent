@@ -4,20 +4,13 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-<<<<<<< Updated upstream
-    <File>/Users/orchidwinters/Projects/grapplingGame/Content/Cursor.png</File>
-    <File>/Users/orchidwinters/Projects/grapplingGame/Content/grappling_gun.png</File>
-    <File>/Users/orchidwinters/Projects/grapplingGame/Content/Pixelify.spritefont</File>
-    <File>/Users/orchidwinters/Projects/grapplingGame/Content/player_sprite.png</File>
-    <File>/Users/orchidwinters/Projects/grapplingGame/Content/TargetActive.png</File>
-=======
-    <File>C:/Users/Isaac Winters/OneDrive/Desktop/Projects/GrapplingGame/Content/Cursor.png</File>
-    <File>C:/Users/Isaac Winters/OneDrive/Desktop/Projects/GrapplingGame/Content/curtain-sheet.png</File>
-    <File>C:/Users/Isaac Winters/OneDrive/Desktop/Projects/GrapplingGame/Content/grappling_gun.png</File>
-    <File>C:/Users/Isaac Winters/OneDrive/Desktop/Projects/GrapplingGame/Content/Pixelify.spritefont</File>
-    <File>C:/Users/Isaac Winters/OneDrive/Desktop/Projects/GrapplingGame/Content/player_sprite.png</File>
-    <File>C:/Users/Isaac Winters/OneDrive/Desktop/Projects/GrapplingGame/Content/TargetActive.png</File>
->>>>>>> Stashed changes
+    <File>/home/I_Winters/Desktop/GrapplingGame/Content/Cursor.png</File>
+    <File>/home/I_Winters/Desktop/GrapplingGame/Content/curtain-sheet.png</File>
+    <File>/home/I_Winters/Desktop/GrapplingGame/Content/grappling_gun.png</File>
+    <File>/home/I_Winters/Desktop/GrapplingGame/Content/Pixelify.spritefont</File>
+    <File>/home/I_Winters/Desktop/GrapplingGame/Content/player_sprite.png</File>
+    <File>/home/I_Winters/Desktop/GrapplingGame/Content/Target.png</File>
+    <File>/home/I_Winters/Desktop/GrapplingGame/Content/TargetActive.png</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />
@@ -25,6 +18,7 @@
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File>Player.png</File>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
   </DestFiles>
 </SourceFileCollection>

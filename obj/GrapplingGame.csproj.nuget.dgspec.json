@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/orchidwinters/Projects/grapplingGame/GrapplingGame.csproj": {}
+    "/home/I_Winters/Desktop/GrapplingGame/GrapplingGame.csproj": {}
   },
   "projects": {
-    "/Users/orchidwinters/Projects/grapplingGame/GrapplingGame.csproj": {
+    "/home/I_Winters/Desktop/GrapplingGame/GrapplingGame.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/orchidwinters/Projects/grapplingGame/GrapplingGame.csproj",
+        "projectUniqueName": "/home/I_Winters/Desktop/GrapplingGame/GrapplingGame.csproj",
         "projectName": "GrapplingGame",
-        "projectPath": "/Users/orchidwinters/Projects/grapplingGame/GrapplingGame.csproj",
-        "packagesPath": "/Users/orchidwinters/.nuget/packages/",
-        "outputPath": "/Users/orchidwinters/Projects/grapplingGame/obj/",
+        "projectPath": "/home/I_Winters/Desktop/GrapplingGame/GrapplingGame.csproj",
+        "packagesPath": "/home/I_Winters/.nuget/packages/",
+        "outputPath": "/home/I_Winters/Desktop/GrapplingGame/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/orchidwinters/.nuget/NuGet/NuGet.Config"
+          "/home/I_Winters/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -32,11 +32,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -85,12 +80,24 @@
           "warn": true,
           "downloadDependencies": [
             {
-              "name": "Microsoft.AspNetCore.App.Runtime.osx-x64",
-              "version": "[6.0.27, 6.0.27]"
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.36, 6.0.36]"
             },
             {
-              "name": "Microsoft.NETCore.App.Runtime.osx-x64",
-              "version": "[6.0.27, 6.0.27]"
+              "name": "Microsoft.AspNetCore.App.Runtime.linux-x64",
+              "version": "[6.0.36, 6.0.36]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.linux-x64",
+              "version": "[6.0.36, 6.0.36]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.36, 6.0.36]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Runtime.linux-x64",
+              "version": "[6.0.36, 6.0.36]"
             }
           ],
           "frameworkReferences": {
@@ -98,11 +105,11 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.201/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.111/RuntimeIdentifierGraph.json"
         }
       },
       "runtimes": {
-        "osx-x64": {
+        "linux-x64": {
           "#import": []
         }
       }

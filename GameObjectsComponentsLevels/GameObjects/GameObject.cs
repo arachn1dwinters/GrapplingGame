@@ -70,12 +70,6 @@ public class GameObject
 
         // Add this to the parent's list of Objects
         parent.GameObjects.Add(this);
-
-        // Check if its a tile and add it to the parents list of tiles
-        if (type == "tile")
-        {
-            GameManager.Instance.tiles.Add(this);
-        }
     }
 
     // GameObject without a sprite
@@ -180,12 +174,6 @@ public class GameObject
 
         // Add this to the parent's list of Objects
         parent.GameObjects.Add(this);
-
-        // Check if its a tile and add it to the parents list of tiles
-        if (type == "tile")
-        {
-            GameManager.Instance.tiles.Add(this);
-        }
     }
 
     public void AddComponent(string componentName)

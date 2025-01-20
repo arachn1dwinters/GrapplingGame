@@ -44,28 +44,6 @@ public class Level
         {
             parent.levels.Add(this);
         }
-
-        Curtain = new(GameManager.Instance.CurtainSheet, new Point(0, 0), new Point(4, 4), "Curtain", this, new()
-        {
-            "AnimationComponent"
-        })
-        {
-            collidable = false,
-            Visible = false
-        };
-
-        Curtain.SetComponentVariable("AnimationComponent", "frameWidth", 400);
-        Curtain.SetComponentVariable("AnimationComponent", "frameHeight", 225);
-        Curtain.SetComponentVariable("AnimationComponent", "animationLengths", new List<int>()
-        {
-            16,
-            16,
-        });
-        Curtain.SetComponentVariable("AnimationComponent", "Events", new List<Event>()
-        {
-            new(NextScreen, 0)
-        });
-        Curtain.SetComponentVariable("AnimationComponent", "timeBetweenFrames", 0.03);
     }
 
     public virtual void Update()
@@ -163,38 +141,12 @@ public class Level
             }
         }
 
-        // Next screen
-        if (ScreenIndex + 1 != Screens.Count && !Screens[ScreenIndex].Bounds.Intersects(Player.rect))
-        {
-            ScreenIndex += 1;
-
-            Curtain.Visible = true;
-            Curtain.position = GameManager.Instance.OrthographicCamera.ScreenToWorld(Vector2.Zero).ToPoint();
-            Curtain.SetComponentVariable("AnimationComponent", "currentAnimation", 0);
-            Curtain.SetComponentVariable("AnimationComponent", "playing", true);
-        }
-
         if (CurtainDown)
         {
             Curtain.SetComponentVariable("AnimationComponent", "currentAnimation", 1);
             Curtain.SetComponentVariable("AnimationComponent", "playing", true);
             CurtainDown = false;
         }
-    }
-
-    public void NextScreen()
-    {
-        CurtainDown = true;
-        Targets.Clear();
-        TiledMap = FolderName + Screens[ScreenIndex].Path;
-        GameManager.Instance.CreateMap(TiledMap);
-
-        Player.position = PlayerSpawn;
-        GrappleGun.position = PlayerSpawn + new Point(32, 32);
-        Player.SetComponentVariable("MovementComponent", "Velocity", Point.Zero);
-        Camera.Instance.TargetCenter = new(GameManager.Instance.HalfScreenWidth, GameManager.Instance.HalfScreenHeight);
-        GameManager.Instance.OrthographicCamera.Position = Vector2.Zero;
-        GameManager.Instance.SpriteTint = Color.White;
     }
 
     public virtual void Initialize() { }

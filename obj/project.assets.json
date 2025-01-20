@@ -94,7 +94,7 @@
         }
       }
     },
-    "net6.0/osx-x64": {
+    "net6.0/linux-x64": {
       "Microsoft.NET.ILLink.Analyzers/7.0.100-1.23211.1": {
         "type": "package",
         "build": {
@@ -136,8 +136,8 @@
           "lib/net6.0/MonoGame.Framework.dll": {}
         },
         "native": {
-          "runtimes/osx/native/libSDL2.dylib": {},
-          "runtimes/osx/native/libopenal.1.dylib": {}
+          "runtimes/linux-x64/native/libSDL2-2.0.so.0": {},
+          "runtimes/linux-x64/native/libopenal.so.1": {}
         },
         "build": {
           "build/MonoGame.Framework.DesktopGL.targets": {}
@@ -282,19 +282,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/orchidwinters/.nuget/packages/": {}
+    "/home/I_Winters/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/orchidwinters/Projects/grapplingGame/GrapplingGame.csproj",
+      "projectUniqueName": "/home/I_Winters/Desktop/GrapplingGame/GrapplingGame.csproj",
       "projectName": "GrapplingGame",
-      "projectPath": "/Users/orchidwinters/Projects/grapplingGame/GrapplingGame.csproj",
-      "packagesPath": "/Users/orchidwinters/.nuget/packages/",
-      "outputPath": "/Users/orchidwinters/Projects/grapplingGame/obj/",
+      "projectPath": "/home/I_Winters/Desktop/GrapplingGame/GrapplingGame.csproj",
+      "packagesPath": "/home/I_Winters/.nuget/packages/",
+      "outputPath": "/home/I_Winters/Desktop/GrapplingGame/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/orchidwinters/.nuget/NuGet/NuGet.Config"
+        "/home/I_Winters/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
@@ -312,11 +312,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -365,12 +360,24 @@
         "warn": true,
         "downloadDependencies": [
           {
-            "name": "Microsoft.AspNetCore.App.Runtime.osx-x64",
-            "version": "[6.0.27, 6.0.27]"
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[6.0.36, 6.0.36]"
           },
           {
-            "name": "Microsoft.NETCore.App.Runtime.osx-x64",
-            "version": "[6.0.27, 6.0.27]"
+            "name": "Microsoft.AspNetCore.App.Runtime.linux-x64",
+            "version": "[6.0.36, 6.0.36]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.linux-x64",
+            "version": "[6.0.36, 6.0.36]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[6.0.36, 6.0.36]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Runtime.linux-x64",
+            "version": "[6.0.36, 6.0.36]"
           }
         ],
         "frameworkReferences": {
@@ -378,11 +385,11 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.201/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.111/RuntimeIdentifierGraph.json"
       }
     },
     "runtimes": {
-      "osx-x64": {
+      "linux-x64": {
         "#import": []
       }
     }
