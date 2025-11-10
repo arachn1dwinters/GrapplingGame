@@ -11,7 +11,7 @@ void GameObject::ApplyPhysics(Point TargetPos = DEFAULTSWINGTARGET) {
         if (!Swinging) {
             CurrentFallingVelocity += 2;
             Pos.Y += CurrentFallingVelocity;
-        } e
+        } else {
             Point Distance = {TargetPos.X - Pos.X, TargetPos.Y - Pos.Y};
             SwingTypes SwingType = (Distance.X > 0) ? SWINGRIGHT : (Distance.X == 0) ? HANG : (DistanceX < 0) ? SWINGLEFT;
         }
