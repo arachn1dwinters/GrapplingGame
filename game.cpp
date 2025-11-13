@@ -1,23 +1,23 @@
 #include "definitions.hpp"
 
-// Pull definitions
-extern Point DEFAULTSWINGTARGET;
-
 GameObject Player;
 
 void update();
 void draw(ALLEGRO_FONT *Font);
 
+Point MousePos = {0, 0};
+
 int main()
 {
-    if (!al_init()) {
+    if (!al_init() || !al_install_mouse()) {
         std::cerr << "Failed to initialize Allegro.\n";
         return -1;
     }
 
     al_install_keyboard();
-
-    ALLEGRO_TIMER* Timer = al_create_timer(1.0 / 30.0);
+    
+    const double FPS = 120.0;
+    ALLEGRO_TIMER* Timer = al_create_timer(1.0 / FPS);
     ALLEGRO_EVENT_QUEUE* Queue = al_create_event_queue();
     ALLEGRO_DISPLAY* Disp = al_create_display(1280, 800);
     ALLEGRO_FONT* Font = al_create_builtin_font();
@@ -39,8 +39,10 @@ int main()
     while (Running)
     {
         al_wait_for_event(Queue, &Event);
-
+        ALLEGRO_MOUSE_STATE state;
         if (Event.type == ALLEGRO_EVENT_TIMER) {
+            al_get_mouse_state(&state);
+
             Update();
             Redraw = true;
         } else if (Event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
@@ -52,7 +54,7 @@ int main()
 
         if (Redraw && al_is_event_queue_empty(Queue))
         {
-            Draw(Font);
+            Draw(Font, state);
             Redraw = false;
         }
     }
@@ -67,21 +69,27 @@ int main()
 
 void Update()
 {
+    Player.Swinging = true;
     Player.ApplyPhysics();
 }
 
-void Draw(ALLEGRO_FONT *Font)
+void Draw(ALLEGRO_FONT *Font, ALLEGRO_MOUSE_STATE state)
 {
     al_clear_to_color(al_map_rgb(0, 0, 0));
+    
+    // Top left text
+    al_draw_text(Font, al_map_rgb(255, 255, 255), 5, 5, 0, std::to_string(Player.CurrentAngle).c_str());
 
     // Draw player
-    al_draw_filled_rounded_rectangle(Player.Pos.X, Player.Pos.Y,
-                                     Player.Pos.X + 50, Player.Pos.Y + 50,
+    al_draw_filled_rounded_rectangle(Player.Pos.X - 25, Player.Pos.Y - 25,
+                                     Player.Pos.X + 25, Player.Pos.Y + 25,
                                      5, 5, al_map_rgb(255, 255, 255));
 
     // Draw grapple target
-    al_draw_filled_rounded_rectangle(DEFAULTSWINGTARGET.X - 25, DEFAULTSWINGTARGET.Y,
-                                     DEFAULTSWINGTARGET.X + 25, DEFAULTSWINGTARGET.Y + 50,
+    Point TargetPos = {615, 400};
+
+    al_draw_filled_rounded_rectangle(TargetPos.X - 25, TargetPos.Y - 25,
+                                     TargetPos.X + 25, TargetPos.Y + 25,
                                      5, 5, al_map_rgb(191, 63, 82));
     al_flip_display();
 }
