@@ -24,11 +24,13 @@ class GameObject {
 
         void ApplyPhysics();
         void DecideIncrement();
+        void Swing();
         bool UsesPhysics = true;
         bool Swinging = false;
         double FallingVelocity = 0; // only used on falling physics objects
-        double AngleIncrement = 0.015 * M_PI; // Radians, only used on swinging physics objects
+        double AngleIncrement = 0.013 * M_PI; // Radians, only used on swinging physics objects
         double CurrentAngle; // Testing purposes
+        bool Stationary = false;
         double IncrementIncrement = 0.0005;
         bool CurrentlySwingingRight = true;
         Point TargetPos = {615, 400};

@@ -22,8 +22,6 @@ static Point DecidePoint(Point Origin, double Angle, double DistanceFromOrigin) 
 void GameObject::DecideIncrement() {
     int FinalIncrementMultiplier = CurrentlySwingingRight ? 1 : -1;
     
-    bool Stationary = false;
-
     if (AngleIncrement == 0) {
         // Flip direction
         FinalIncrementMultiplier = -FinalIncrementMultiplier;
@@ -31,7 +29,7 @@ void GameObject::DecideIncrement() {
     }
 
     bool DirectionChanged = (AngleIncrement > 0 && FinalIncrementMultiplier == -1) || 
-        (AngleIncrement < 0 && FinalIncrementMultiplier == 1);
+                            (AngleIncrement < 0 && FinalIncrementMultiplier == 1);
 
     Point DistanceFromTarget = {TargetPos.X - Pos.X, TargetPos.Y - TargetPos.Y};
     int IncrementIncrementMultiplier;
@@ -45,15 +43,27 @@ void GameObject::DecideIncrement() {
     AngleIncrement = !Stationary ? FinalIncrementMultiplier * (AngleIncrement + LocalIncrementIncrement) : 0;
 
     if (DirectionChanged) {
-        double DampingFactor = 0.99;
+        double DampingFactor = 0.98;
         AngleIncrement *= DampingFactor;
     }
 
-    if (fabs(AngleIncrement) < 0.001) {
+    if (fabs(AngleIncrement) < 0.001 && fabs(DistanceFromTarget.X) < 10) {
         AngleIncrement = 0;
         Stationary = true;
     }
 };
+
+void GameObject::Swing() {
+    if (!Stationary) {
+        Point DistanceFromTarget = {TargetPos.X - Pos.X, TargetPos.Y - Pos.Y};
+        double RopeLength = sqrt(pow(DistanceFromTarget.X, 2) + pow(DistanceFromTarget.Y, 2));
+        
+        DecideIncrement();
+        CurrentAngle = DecideAngle(Pos, TargetPos);
+        CurrentAngle = CurrentAngle + AngleIncrement;
+        Pos = DecidePoint(TargetPos, CurrentAngle, RopeLength);
+    }
+}
 
 void GameObject::ApplyPhysics() {
     if (UsesPhysics) {
@@ -61,13 +71,7 @@ void GameObject::ApplyPhysics() {
             FallingVelocity += 1;
             Pos.Y += FallingVelocity;
         } else {
-            Point DistanceFromTarget = {TargetPos.X - Pos.X, TargetPos.Y - Pos.Y};
-            double RopeLength = sqrt(pow(DistanceFromTarget.X, 2) + pow(DistanceFromTarget.Y, 2));
-            
-            DecideIncrement();
-            CurrentAngle = DecideAngle(Pos, TargetPos);
-            CurrentAngle = CurrentAngle + AngleIncrement;
-            Pos = DecidePoint(TargetPos, CurrentAngle, RopeLength);
+            Swing();
         }
     } 
 };
