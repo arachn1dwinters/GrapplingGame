@@ -20,16 +20,16 @@ void Draw(ALLEGRO_FONT *font, ALLEGRO_MOUSE_STATE state);
 // GameObject class, functions
 class GameObject {
     public:
-        void Move(Point Movement);
-        Point Pos = {915, 400};
+        Point Pos = {315, 400};
 
         void ApplyPhysics();
         void DecideIncrement();
         bool UsesPhysics = true;
         bool Swinging = false;
         double FallingVelocity = 0; // only used on falling physics objects
-        double AngleIncrement = 0.005 * M_PI; // Radians, only used on swinging physics objects
+        double AngleIncrement = 0.015 * M_PI; // Radians, only used on swinging physics objects
         double CurrentAngle; // Testing purposes
+        double IncrementIncrement = 0.0005;
         bool CurrentlySwingingRight = true;
         Point TargetPos = {615, 400};
 };

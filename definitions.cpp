@@ -1,11 +1,6 @@
 #include "definitions.hpp"
 
 // GameObject functions
-void GameObject::Move(Point Movement) {
-    Pos.X += Movement.X;
-    Pos.Y += Movement.Y;
-};
-
 static double DecideAngle(Point Pos, Point Origin) {
     double Y = (Origin.Y - Pos.Y);
     double X = -(Origin.X - Pos.X);
@@ -26,11 +21,17 @@ static Point DecidePoint(Point Origin, double Angle, double DistanceFromOrigin) 
 
 void GameObject::DecideIncrement() {
     int FinalIncrementMultiplier = CurrentlySwingingRight ? 1 : -1;
+    
+    bool Stationary = false;
+
     if (AngleIncrement == 0) {
         // Flip direction
         FinalIncrementMultiplier = -FinalIncrementMultiplier;
         CurrentlySwingingRight = !CurrentlySwingingRight;
     }
+
+    bool DirectionChanged = (AngleIncrement > 0 && FinalIncrementMultiplier == -1) || 
+        (AngleIncrement < 0 && FinalIncrementMultiplier == 1);
 
     Point DistanceFromTarget = {TargetPos.X - Pos.X, TargetPos.Y - TargetPos.Y};
     int IncrementIncrementMultiplier;
@@ -40,8 +41,18 @@ void GameObject::DecideIncrement() {
         IncrementIncrementMultiplier = 1;
     }
 
-    double IncrementIncrement = 0.0005 * M_PI * IncrementIncrementMultiplier;
-    AngleIncrement = FinalIncrementMultiplier * (AngleIncrement + IncrementIncrement);
+    double LocalIncrementIncrement = IncrementIncrement * M_PI * IncrementIncrementMultiplier;
+    AngleIncrement = !Stationary ? FinalIncrementMultiplier * (AngleIncrement + LocalIncrementIncrement) : 0;
+
+    if (DirectionChanged) {
+        double DampingFactor = 0.99;
+        AngleIncrement *= DampingFactor;
+    }
+
+    if (fabs(AngleIncrement) < 0.001) {
+        AngleIncrement = 0;
+        Stationary = true;
+    }
 };
 
 void GameObject::ApplyPhysics() {
