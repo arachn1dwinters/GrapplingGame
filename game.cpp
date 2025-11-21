@@ -75,9 +75,11 @@ void Update()
 void Draw(ALLEGRO_FONT *Font, ALLEGRO_MOUSE_STATE state)
 {
     al_clear_to_color(al_map_rgb(0, 0, 0));
+
+    al_draw_elliptical_arc(615, 100, 500, 200, M_PI, M_PI, al_map_rgb(255, 255, 255), 3);
     
     // Top left text
-    al_draw_text(Font, al_map_rgb(255, 255, 255), 5, 5, 0, (std::to_string(Player.IncrementIncrement) + "; " + std::to_string(Player.AngleIncrement)).c_str());
+    al_draw_text(Font, al_map_rgb(255, 255, 255), 5, 5, 0, (std::to_string(Player.IncrementIncrement) + "; " + std::to_string(Player.CurrentAngle)).c_str());
 
     // Draw player
     al_draw_filled_rounded_rectangle(Player.Pos.X - 25, Player.Pos.Y - 25,
@@ -90,5 +92,51 @@ void Draw(ALLEGRO_FONT *Font, ALLEGRO_MOUSE_STATE state)
     al_draw_filled_rounded_rectangle(TargetPos.X - 25, TargetPos.Y - 25,
                                      TargetPos.X + 25, TargetPos.Y + 25,
                                      5, 5, al_map_rgb(191, 63, 82));
+
+    // Draw curved line
+    if (Player.Swinging) {
+        // Calculate the midpoint and distance
+        float dx = Player.TargetPos.X - Player.Pos.X;
+        float dy = Player.TargetPos.Y - Player.Pos.Y;
+        float distance = sqrt(dx * dx + dy * dy);
+
+        // Define the arc height (adjust this to control how curved the arc is)
+        float arc_height = distance * 0.3f; // 30% of distance, adjust as needed
+
+        // Number of segments for smooth curve
+        int num_segments = 20;
+
+        // Draw the parabolic arc using connected line segments
+        for (int i = 0; i < num_segments; i++) {
+            // Parameter t goes from 0 to 1
+            float t1 = (float)i / num_segments;
+            float t2 = (float)(i + 1) / num_segments;
+            
+            // Linear interpolation for x and y
+            float x1 = Player.Pos.X + dx * t1;
+            float y1 = Player.Pos.Y + dy * t1;
+            float x2 = Player.Pos.X + dx * t2;
+            float y2 = Player.Pos.Y + dy * t2;
+            
+            // Add parabolic offset perpendicular to the line
+            // Parabola peaks at t=0.5
+            float offset1 = 4 * arc_height * t1 * (1 - t1); // Parabola formula: 4h*t*(1-t)
+            float offset2 = 4 * arc_height * t2 * (1 - t2);
+            
+            // Calculate perpendicular direction (rotate 90 degrees)
+            float perpX = -dy / distance;
+            float perpY = dx / distance;
+            
+            // Apply offset perpendicular to the line
+            x1 += perpX * offset1;
+            y1 += perpY * offset1;
+            x2 += perpX * offset2;
+            y2 += perpY * offset2;
+            
+            // Draw line segment
+            al_draw_line(x1, y1, x2, y2, al_map_rgb(255, 255, 255), 2);
+        }
+    }
+
     al_flip_display();
 }

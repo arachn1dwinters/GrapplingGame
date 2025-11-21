@@ -43,7 +43,7 @@ void GameObject::DecideIncrement() {
     AngleIncrement = !Stationary ? FinalIncrementMultiplier * (AngleIncrement + LocalIncrementIncrement) : 0;
 
     if (DirectionChanged) {
-        double DampingFactor = 0.98;
+        double DampingFactor = 1.0;
         AngleIncrement *= DampingFactor;
     }
 
