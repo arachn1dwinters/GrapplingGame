@@ -23,13 +23,14 @@ class GameObject {
         Point Pos = {315, 400};
 
         void ApplyPhysics();
-        void DecideIncrement();
+        void DecideIncrement(double RopeLength);
         void Swing();
         bool UsesPhysics = true;
         bool Swinging = false;
         double FallingVelocity = 0; // only used on falling physics objects
         double AngleIncrement = 0.013 * M_PI; // Radians, only used on swinging physics objects
         double CurrentAngle; // Testing purposes
+        float RopeAmplitude = 0;
         bool Stationary = false;
         double IncrementIncrement = 0.0005;
         bool CurrentlySwingingRight = true;

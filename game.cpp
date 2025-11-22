@@ -75,8 +75,6 @@ void Update()
 void Draw(ALLEGRO_FONT *Font, ALLEGRO_MOUSE_STATE state)
 {
     al_clear_to_color(al_map_rgb(0, 0, 0));
-
-    al_draw_elliptical_arc(615, 100, 500, 200, M_PI, M_PI, al_map_rgb(255, 255, 255), 3);
     
     // Top left text
     al_draw_text(Font, al_map_rgb(255, 255, 255), 5, 5, 0, (std::to_string(Player.IncrementIncrement) + "; " + std::to_string(Player.CurrentAngle)).c_str());
@@ -120,8 +118,9 @@ void Draw(ALLEGRO_FONT *Font, ALLEGRO_MOUSE_STATE state)
             
             // Add parabolic offset perpendicular to the line
             // Parabola peaks at t=0.5
-            float offset1 = 4 * arc_height * t1 * (1 - t1); // Parabola formula: 4h*t*(1-t)
-            float offset2 = 4 * arc_height * t2 * (1 - t2);
+            float offsetAmplitude = Player.RopeAmplitude;
+            float offset1 = offsetAmplitude * arc_height * t1 * (1 - t1); // Parabola formula: 4h*t*(1-t)
+            float offset2 = offsetAmplitude * arc_height * t2 * (1 - t2);
             
             // Calculate perpendicular direction (rotate 90 degrees)
             float perpX = -dy / distance;
@@ -134,7 +133,7 @@ void Draw(ALLEGRO_FONT *Font, ALLEGRO_MOUSE_STATE state)
             y2 += perpY * offset2;
             
             // Draw line segment
-            al_draw_line(x1, y1, x2, y2, al_map_rgb(255, 255, 255), 2);
+            al_draw_line(x1, y1, x2, y2, al_map_rgb(255, 255, 255), 3);
         }
     }
 
